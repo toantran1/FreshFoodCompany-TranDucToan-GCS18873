@@ -76,6 +76,7 @@ $cs = new customer();
                                 class="medium" />
                             </td>
                         </tr>
+                        <tr>
                         <td>Zip-code</td>
                         <td>:</td>
                             <td>
@@ -83,7 +84,7 @@ $cs = new customer();
                                 class="medium" />
                             </td>
                         </tr>
-                       
+                     
 					
                     </table>
                     </form>

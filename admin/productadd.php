@@ -110,8 +110,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
                     <td>
                         <select id="select" name="type">
                             <option>Select Type</option>
-                            <option value="1">Featured</option>
-                            <option value="0">Non-Featured</option>
+                            <option value="0">Featured</option>
+                            <option value="1">Non-Featured</option>
                         </select>
                     </td>
                 </tr>

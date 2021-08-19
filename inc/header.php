@@ -26,7 +26,7 @@ $product = new product();
 
 <!DOCTYPE HTML>
 <head>
-<title>Store Website</title>
+<title>Fresh Food Company</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
@@ -40,6 +40,10 @@ $product = new product();
 <script type="text/javascript" src="js/nav-hover.js"></script>
 <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Doppio+One' rel='stylesheet' type='text/css'>
+
+
+
+<link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
 <script type="text/javascript">
   $(document).ready(function($){
     $('#dc_mega-menu-orange').dcMegaMenu({rowItems:'4',speed:'fast',effect:'fade'});
@@ -53,11 +57,14 @@ $product = new product();
 				<a href="index.php"><img src="images/logo1.png" alt="" /></a>
 			</div>
 			  <div class="header_top_right">
+				
 			    <div class="search_box">
-				    <form>
-				    	<input type="text" value="Search for Products" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search for Products';}"><input type="submit" value="SEARCH">
+				    <form action="search.php" method="GET">
+				    	<input type="text" placeholder="Search for products..." name="search_prod"><input type="submit" name="search_submit" value="SEARCH">
 				    </form>
+					
 			    </div>
+				
 			    <div class="shopping_cart">
 					<div class="cart">
 						<a href="#" title="View my shopping cart" rel="nofollow">
@@ -68,7 +75,7 @@ $product = new product();
 								if($check_cart){
 								$sum = Session::get("sum");
 								$qty = Session::get("qty");
-								echo $sum.' VND'.'-'.'SL:'.$qty;
+								echo $fm->format_currency($sum).' VND'.'-'.'Qty:'.$qty;
 								}else{
 									echo 'Empty';
 								}
@@ -80,7 +87,9 @@ $product = new product();
 
 				  <?php
 				 	if(isset($_GET['customerid'])){
+						 $customerid= $_GET['customerid'];
 						 $delCart = $ct->del_all_data_cart();
+						 $delCompare = $ct->del_all_data_compare($customerid);
 						 Session::destroy();
 					 } 
 				  ?>
@@ -90,19 +99,53 @@ $product = new product();
 		   if($login_check == false){
 			   echo '<a href="login.php">Login</a></div>';
 		   }else{
-			   echo '<a href="?customerid='.Session::get("customer_id").'">Logout</a></div>';
+			
+
+			    $now = time(); // Checking the time now when home page starts.
+				
+				if ($now >  $_SESSION['expire']) {					
+					session_destroy();
+				}
+				echo '<a href="?customerid='.Session::get("customer_id").'">Logout</a></div>';	
+				// }else{
+			       
+				// }
 		   }		   
 		   ?>
 		
 		 <div class="clear"></div>
-	 </div>
+		 </div>
 	 <div class="clear"></div>
+	 <div class="float_right">
+		
+        <?php
+	 	 $login_check = Session:: get('customer_login');
+		  $check_name= Session:: get('customer_name');
+		if($login_check == false){
+			echo '';
+		}else{
+			
+		?>  
+		<div class="float_left">
+			<img src="admin/img/img-profile.jpg" alt="Profile Pic" /></div>
+			<div class="float_left marginleft10px"> 
+					<div class="inline">
+			<a  style="color:green; font-weight:600" href="profile.php ">Hello! <?php echo $check_name ?></a></div>
+		</div>
+		<?php
+		}
+	  ?>
+	</div>  
  </div>
+
+
 <div class="menu">
+
+    
 	<ul id="dc_mega-menu-orange" class="dc_mm-orange">
 	  <li><a href="index.php">Home</a></li>
 	  <li><a href="products.php">Products</a> </li>
-	  <li><a href="topbrands.php">Top Brands</a></li>
+	  <!-- <li><a href="topbrands.php">Top Brands</a></li> -->
 
 	  <?php
 	 	$check_cart = $ct->check_cart();
@@ -131,15 +174,27 @@ $product = new product();
 			echo '<li><a href="profile.php">Profile</a> </li>';
 		}
 	  ?>
-	  <?php
+	  <!-- <?php
 	  
 	  $login_check = Session:: get('customer_login');
 	  if($login_check ){
 		echo '<li><a href="compare.php">Compare Product</a> </li>';
 	  }
+	  ?> -->
+
+		<?php
+	  
+	  $login_check = Session:: get('customer_login');
+	  if($login_check ){
+		echo '<li><a href="favoriteproduct.php">Favorite</a> </li>';
+	  }
 	  ?>
 
-	  <li><a href="contact.php">Contact</a> </li>
+	  <li><a href="contact.php">Contact</a> </li>	
+
+
 	  <div class="clear"></div>
+	  
 	</ul>
+
 </div>

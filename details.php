@@ -14,12 +14,36 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
 	}
 ?>
 <?php
+// $customerId = Session::get('customer_id');
+// if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compare'])){	
+// 	$productId = $_POST['productid'];
+// 	$insertCompare = $product->insert_compare($productId,$customerId);
+// }
+?>
+<?php
 $customerId = Session::get('customer_id');
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compare'])){	
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['favorproduct'])){	
 	$productId = $_POST['productid'];
-	$insertCompare = $product->insert_compare($productId,$customerId);
+	$insertFavorite = $product->insert_favorite($productId,$customerId);
 }
 ?>
+<?php
+
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])){
+
+	 $comment= $cs->insert_comment();
+
+}
+?>
+<?php
+// $customerId = Session::get('customer_id');
+// if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])){
+
+// 	$insert_cus_comment= $cs->insert_cus_comment($customerId);
+
+// }
+?>
+
  <div class="main">
     <div class="content">
     	<div class="section group">
@@ -37,7 +61,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compare'])){
 					<h2><?php echo $result_details['productName']?> </h2>
 					<p><?php echo $fm->textShorten($result_details['product_desc'],150)?></p>					
 					<div class="price">
-						<p>Price: <span><?php echo $result_details['price']." VND"?></span></p>
+						<p>Price: <span><?php echo $fm->format_currency($result_details['price'])." VND"?></span></p>
 						<p>Category: <span><?php echo $result_details['catName']?></span></p>
 						<p>Brand:<span><?php echo $result_details['brandName']?></span></p>
 					</div>
@@ -55,26 +79,48 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compare'])){
 				</div>
 
 				<div class="add-cart">
+					<div class="button_details">
 					<form action="" method="post">
-					<!-- <a href="?FavorProduct=<?php echo $result_details['productId']?>" class="buysubmit">Add to favorite product</a>	 -->
-					<!-- <a href="?compare=<?php echo $result_details['productId']?>" class="buysubmit">Compare product</a>	 -->
+					<!-- <input type="hidden" name="productid"  value="<?php echo $result_details['productId']?>"/>
+					<?php
+					$login_check = Session:: get('customer_login');
+					if($login_check ){
+					  echo '<input type="submit" class="buysubmit" name="compare" value="Compare Product">';
+					}
+					?> -->
+				
+					
+				
+					<!-- </form>
 
+					<form action="" method="post"> -->
+										
 					<input type="hidden" name="productid"  value="<?php echo $result_details['productId']?>"/>
 					<?php
 					$login_check = Session:: get('customer_login');
 					if($login_check ){
-					  echo '<input type="submit" class="buysubmit" name="compare" value="Compare Product"/></br>';
+					  echo '<input type="submit" class="buysubmit" name="favorproduct" value="Add to Favorite">';
 					}
 					?>
+			
+					</form>
+				
+				</div>
+					<div class="clear"></div>
 					
 					<?php
-					if(isset($insertCompare)){
-						echo $insertCompare;
+					if(isset($insertFavorite)){
+						echo $insertFavorite;
 					}
 					?>
-					</form>
+					<!-- <?php
+					// if(isset($insertCompare)){
+					// 	echo $insertCompare;
+					// }
+					?> -->
 				</div>
 			</div>
+
 			<div class="product-desc">
 			<h2>Product Details</h2>
 			<p><?php echo $fm->textShorten($result_details['product_desc'],150)?></p>
@@ -103,6 +149,92 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compare'])){
  				</div>
  		</div>
  	</div>
+	</div>	
+
+
+
+<div class="content">
+	<div class="section group">
+				<div class="col span_2_of_3">
+				<h2>Comment</h2>
+				<?php
+				if(isset($comment)){
+					echo $comment;
+				}
+				?>
+				  <div class="contact-form">
+				  	
+				
+					    <form action="" method="post">
+						<p><input type="hidden" value="<?php echo $id ?>" name ="product_id_comment"></p>
+					    	<div>
+								<?php
+								$customerid = Session::get('customer_id');
+								$show_cus = $cs->show_cus_comment($customerid);
+								if($show_cus){
+								$result_show_cus_cmt = $show_cus->fetch_assoc();
+								}
+								?>
+								<div class="price">
+						    	<p>Your Name</p></div>
+								  <?php
+								 	 $login_check = Session:: get('customer_login');
+									if($login_check == false){
+									?>
+									<input type= "text" placeholder="Enter your name..." class="buyfield" name ="usercomment"/>
+									<?php
+									}else{
+										?>
+
+									<input style='color: green;' type= "text" readonly="readonly" value="<?php echo $result_show_cus_cmt['name']; ?>" class="buyfield" name ="usercomment"/>
+									<?php
+								}
+	 								 ?>
+						    	<!-- <input type= "text" placeholder="Enter your name..." class="buyfield" name ="usercomment"/> -->
+						    </div>
+							<div class="price">
+						    	<p>Comment Detail</p></div>
+						    	<span><textarea  style="resize:none" class="form-control" placeholder="Comment..." name="comment"></textarea></span>
+						    </div>
+						   <div>
+						   		<span><input type="submit" name ="submit_comment" class="buysubmit" value="Comment"></span></br>
+						  </div>
+					    </form>
+			</div>
+			</div>
+
+			<div class="section group">
+				<div class="col span_2_of_3">
+					<div class="pre-comment">
+	
+				<h2>All Comments</h2>			
+				<table class="tblone">
+			
+				<?php	
+						$cmlist= $cs->show_comment($id);
+						if($cmlist){
+						 	while($result_comment= $cmlist->fetch_assoc()){
+                ?> 
+
+				<tr class="odd gradeX">
+					<td><h3 style="color:green"><?php echo $result_comment['user_comment'].":" ?></h3></td>
+					<td><?php echo $result_comment['comment_detail'] ?></td>
+				</tr>
+
+				<?php
+					}
+				}
+				?>
+			</table>
+			
+					</div>
+				  </div>
+  				</div>
+
+			
+		</div>
+
+			
  <?php
  include 'inc/footer.php';
  ?>

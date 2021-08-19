@@ -110,6 +110,13 @@ class cart{
         return $result;
     }
 
+    public function del_all_data_compare($customerid){
+        $sId = session_id();
+        $query = "DELETE FROM tbl_compare WHERE customerId ='$customerid'";
+        $result = $this->db->delete($query);
+        return $result;
+    }
+
     public function insertOrder($customerid){
         $sId = session_id();
         $query = "SELECT * FROM tbl_cart WHERE sId ='$sId'";
@@ -142,33 +149,62 @@ class cart{
 
     public function get_ordered_detail($customerid){
         
-        $query = "SELECT * FROM tbl_order WHERE customerId = '$customerid'";
+        $query = "SELECT * FROM tbl_order WHERE customerId = '$customerid' ORDER BY id desc";
         $get_ordered_detail = $this->db-> select($query);
         return $get_ordered_detail;
     }
 
     public function getInboxCart(){
-        $query = "SELECT * FROM tbl_order ORDER BY dateOrder";
+        $query = "SELECT * FROM tbl_order ORDER BY dateOrder desc";
         $get_inbox_cart = $this->db-> select($query);
         return $get_inbox_cart;
     }
+
+    // public function processed($id,$time,$price){
+    //     $id = mysqli_real_escape_string($this->db->link, $id);
+    //     $time = mysqli_real_escape_string($this->db->link, $time);
+    //     $price = mysqli_real_escape_string($this->db->link, $price);
+
+    //     $query = "UPDATE tbl_order SET status = '1'
+    //               WHERE id = '$id' AND dateOrder = '$time' AND price = '$price'";
+    //     $result = $this->db->update($query);
+    //     if($result){
+    //         $msg = "<span style='color: green;'> Update order successfully !!!</span>";
+    //         return $msg;; 
+    //     }else{
+    //         $msg = "<span style='color: red;'>  Update order failded !!!</span>";
+    //         return $msg;
+
+    //     }
+    // }
 
     public function processed($id,$time,$price){
         $id = mysqli_real_escape_string($this->db->link, $id);
         $time = mysqli_real_escape_string($this->db->link, $time);
         $price = mysqli_real_escape_string($this->db->link, $price);
 
-        $query = "UPDATE tbl_order SET status = '1'
+        $code_status = "SELECT status FROM tbl_order 
                   WHERE id = '$id' AND dateOrder = '$time' AND price = '$price'";
-        $result = $this->db->update($query);
-        if($result){
-            $msg = "<span style='color: green;'> Update order successfully !!!</span>";
-            return $msg;; 
-        }else{
-            $msg = "<span style='color: red;'>  Update order failded !!!</span>";
-            return $msg;
+        $res_status = $this->db->select($code_status);
+        $result_status = $res_status->fetch_object()->{'status'};
 
-        }
+        if ($result_status == 0) {
+            $query = "UPDATE tbl_order SET status = '1'
+                      WHERE id = '$id' AND dateOrder = '$time' AND price = '$price' ";
+            }else{
+                $query = "UPDATE tbl_order SET status = '2'
+                WHERE id = '$id' AND dateOrder = '$time' AND price = '$price' ";
+            }
+            $result = $this->db->update($query);
+
+        // if($result){
+        //     $msg = "<span style='color: green;'> Update order successfully !!!</span>";
+        //     return $msg;; 
+        // }else{
+        //     $msg = "<span style='color: red;'>  Update order failded !!!</span>";
+        //     return $msg;
+
+        // }
     }
 
     public function delete_completed_orer($id,$time,$price){
@@ -178,6 +214,7 @@ class cart{
 
         $query = "DELETE FROM tbl_order 
                   WHERE id = '$id' AND dateOrder = '$time' AND price = '$price'";
+
          $result = $this->db->delete($query);
          if($result){
              $msg = "<span style='color: green;'> Delete order successfully !!!</span>";
@@ -199,6 +236,26 @@ class cart{
        
     }
 
+//     public function received($id,$time,$price){
+//         $id = mysqli_real_escape_string($this->db->link, $id);
+//         $time = mysqli_real_escape_string($this->db->link, $time);
+//         $price = mysqli_real_escape_string($this->db->link, $price);
+
+//          $code_received = "SELECT status FROM tbl_order 
+//                   WHERE id = '$id' AND dateOrder = '$time' AND price = '$price'";
+//         $res_received = $this->db->select($code_received);
+//         $result_received = $res_received->fetch_object()->{'status'};
+
+//         if ($result_received == 1) {
+//             $query = "UPDATE tbl_order SET status = '2'
+//                       WHERE id = '$id' AND dateOrder = '$time' AND price = '$price' ";
+//             }
+//             $result = $this->db->update($query);
+//             return $result;
+
+   
+// }
+
     // public function delete_order_detail($id){
     //     $id = mysqli_real_escape_string($this->db->link, $id);
     //     // $time = mysqli_real_escape_string($this->db->link, $time);
@@ -215,5 +272,35 @@ class cart{
         $result = $this->db-> select($query);
         return $result;
     }
+
+    public function get_favor_product($customerId){
+        $query = "SELECT * FROM tbl_favoriteproduct WHERE customerId = '$customerId' ORDER BY id desc";
+        $result = $this->db-> select($query);
+        return $result;
+    }
+
+    public function del_pre_product($productId){
+        $query= "DELETE FROM tb_product, tb_favoriteproduct WHERE $productId.tb_product = productId.tb_favoriteproduct";
+        $result = $this->db->delete($query);
+        return $result;
+    }
+
+    public function insert_delivery($customerid){
+        $order = $_GET['orderid'];
+        $address = $_GET['delivery_address'];
+
+        if($address ==''){
+            $alert= "<span class='error'>Fields can't be empty </span>";
+            return $alert;
+        }else{
+             $query = "INSERT INTO tbl_deliveryaddress(customerId,address,orderid) 
+                           VALUES('$customerid','$address','$order')";
+
+                $result = $this->db->insert($query);
+        }
+
+    }
+
+  
 }
 ?>

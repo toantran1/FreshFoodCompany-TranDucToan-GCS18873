@@ -11,7 +11,7 @@ $class = new adminlogin();
 	 $login_check = $class->login_admin($adminUser, $adminPass) ;
  }
 ?>
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <title>Login</title>
@@ -37,11 +37,57 @@ $class = new adminlogin();
 			<div>
 				<input type="submit" value="Log in" />
 			</div>
-		</form><!-- form -->
+		</form>
 		<div class="button">
-			<a href="#">Training with live project</a>
-		</div><!-- button -->
-	</section><!-- content -->
-</div><!-- container -->
+			<a href="../index.php">Fresh Food Company</a>
+		</div>
+	</section>
+</div>
+</body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+	
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/login.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="../css/login.css">
+	<title>Admin Login</title>
+</head>
+<body>
+<form action="login.php" method="post">
+  <h1>ADMIN LOGIN</h1>
+  <?php
+			if(isset($login_check)){
+				echo $login_check;
+			}
+			?>
+  <div class="inset">
+  <p>
+    <label for="email">ADMIN</label>
+    <input type="text" name="adminUser" placeholder="Username">
+  </p>
+  <p>
+    <label for="password">PASSWORD</label>
+    <input type="password" name="adminPass" placeholder="Password" >
+  </p>
+  <!-- <p>
+    <input type="checkbox" name="remember" id="remember">
+    <label for="remember">Remember me for 14 days</label>
+  </p> -->
+  </div>
+  <p class="p-container">
+    <span><a href="#">Forgot password?</a></span>
+    <input type="submit" value="Log in" />
+  </p>
+  <p class="p-container">
+  <center><p class="fresh_food"><a href="../index.php">Fresh Food Company</a></p></center>
+  </p>
+</form>
 </body>
 </html>

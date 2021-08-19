@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 include_once 'inc/header.php';
 //include_once 'inc/slider.php';
 ?>
@@ -97,4 +97,4 @@ if(!isset($_GET['id'])){
  </div>
  <?php
  include 'inc/footer.php';
- ?>
+ ?> -->

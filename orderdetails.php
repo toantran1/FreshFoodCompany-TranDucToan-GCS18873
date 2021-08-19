@@ -59,24 +59,17 @@ if(isset($_GET['receiveid'])){
                                 <td><?php echo $i; ?></td>
 								<td><?php echo $result['productName'] ?></td>
 								<td><img src="admin/uploads/<?php echo $result['image'] ?>" alt=""/></td>
-								<td><?php echo $result['price'].' VND' ?></td>
-								<td>
-									
-                                    <?php echo $result['quantity'] ?>
-								
-								</td>
-
-								
-                                
+								<td><?php echo $fm->format_currency($result['price']).' VND' ?></td>
+								<td><?php echo $result['quantity'] ?></td>
                                 <td><?php echo $fm->formatDate($result['dateOrder']); ?></td>
                                 <td>
                                 <?php
-                                if($result['status']== '0'){
+                                if($result['status']== 0){
                                     echo 'Processing';
                                 }elseif($result['status']==  1){
                                    
-                                    ?>
-                                    <!-- <a href="?receiveid=<?php echo $result['id'] ?>&price=<?php echo $result['price']?>&time=<?php echo $result['dateOrder']?>">Delivering</a> -->
+                                ?>
+                                    
                                     <span>Delivering</span>
                                 <?php
                                 }else{
@@ -85,33 +78,38 @@ if(isset($_GET['receiveid'])){
                                 ?>
                                 </td>
                                 <?php
-                                if($result['status']== '0'){
+                                if($result['status']== 0){
                                    
                                 ?>
                                 <td><?php echo "N/A"; ?></td>
 
                                 <?php
-                                }elseif($result['status']== '1'){
+                                }elseif($result['status']== 1){
                                 ?>
                                  <td><a href="?receiveid=<?php echo $result['id'] ?>&price=<?php echo $result['price']?>&time=<?php echo $result['dateOrder']?>">Confirm</a></td>
                                <?php
-                                }elseif($result['status']== '2'){
+                                }elseif($result['status']== 2){
                                ?>
                                 <td><?php echo 'Received' ?></td>
                                 <?php
                                     }
                                 ?>
-								
-							
+
 							</tr>
 
 							<?php
 							}
-                        }
+                        }else{
                         ?>
 							
 						</table>
-					
+                        <table>
+                        <?php
+                            echo '<center><img src="images/empty_state1.png" alt="" width ="300px"></center>';
+                        }
+                        ?>
+                        </table>
+				
 					   
 					</div>
 					<div class="shopping">
@@ -131,6 +129,7 @@ if(isset($_GET['receiveid'])){
        <div class="clear"></div>
     </div>
  </div>
+
  <?php
  include 'inc/footer.php';
  ?>

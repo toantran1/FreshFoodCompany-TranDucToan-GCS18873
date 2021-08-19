@@ -7,75 +7,223 @@ include 'inc/slider.php';
     <div class="content">
     	<div class="content_top">
     		<div class="heading">
-    		<h3>Latest from Iphone</h3>
+    		<h3>Vegetable</h3>
     		</div>
     		<div class="clear"></div>
     	</div>
 	      <div class="section group">
+			  <?php
+			  
+			  $get_vegetable = $product->getvegetable();
+			  if($get_vegetable){
+				  while( $result_get_vegetable= $get_vegetable->fetch_assoc()){
+			  
+			  ?>
 				<div class="grid_1_of_4 images_1_of_4">
-					 <a href="details-3.php"><img src="images/feature-pic1.png" alt="" /></a>
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-					 <p><span class="price">$505.22</span></p>
-				     <div class="button"><span><a href="details.php" class="details">Details</a></span></div>
+				<a href="details.php?proid=<?php echo $result_get_vegatable['productId'] ?>"> <img src="admin/uploads/<?php echo $result_get_vegetable['image'] ?>" alt="" width="112px" height ="112px" /></a>
+				<p><?php echo $result_get_vegetable['productName'] ?></p>
+				<p><?php echo $result_get_vegetable['product_desc'] ?></p>
+				<p><span class="price"><?php echo $fm->format_currency($result_get_vegetable['price'])." VND" ?></span></p>
+				<div class="button"><span><a href="details.php?proid=<?php echo $result_get_vegetable['productId'] ?>">Details</a></span></div>
 				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="details-2.php"><img src="images/feature-pic2.jpg" alt="" /></a>
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-					 <p><span class="price">$620.87</span></p> 
-				     <div class="button"><span><a href="details.php" class="details">Details</a></span></div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="details-4.php"><img src="images/feature-pic3.jpg" alt="" /></a>
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-					 <p><span class="price">$220.97</span></p>
-				     <div class="button"><span><a href="details.php" class="details">Details</a></span></div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<img src="images/feature-pic4.png" alt="" />
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-					 <p><span class="price">$415.54</span></p> 
-				     <div class="button"><span><a href="details.php" class="details">Details</a></span></div>
-				</div>
+				<?php
+				}
+			  }
+			  ?>
+				
 			</div>
+			<div class="">
+			<?php
+			$product_vegetable = $product->product_vegetable();
+			$pr_vege_count = mysqli_num_rows($product_vegetable);
+			
+			$pr_vege_button =ceil($pr_vege_count/8);
+
+			$i = 0;
+			echo '<p>Page: </p>';
+			for($i=1;$i<=$pr_vege_button;$i++){
+				echo '<a style="margin:0 5px" href="products.php?vegetablepage='.$i.'">'.$i.'</a>';
+			}
+
+			?>
+
+	    	</div>
+
 			<div class="content_bottom">
     		<div class="heading">
-    		<h3>Latest from Acer</h3>
+    		<h3>Fruit</h3>
     		</div>
     		<div class="clear"></div>
     	</div>
 			<div class="section group">
+			<?php
+			  
+			  $get_fruit = $product->getfruit();
+			  if($get_fruit){
+				  while( $result_get_fruit= $get_fruit->fetch_assoc()){
+			  
+			  ?>
 				<div class="grid_1_of_4 images_1_of_4">
-					 <a href="details-3.php"><img src="images/new-pic1.jpg" alt="" /></a>
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p><span class="price">$403.66</span></p>
-				    
-				     <div class="button"><span><a href="details.php" class="details">Details</a></span></div>
+				<a href="details.php?proid=<?php echo $result_get_fruit['productId'] ?>"> <img src="admin/uploads/<?php echo $result_get_fruit['image'] ?>" alt="" /></a>
+				<p><?php echo $result_get_fruit['productName'] ?></p>
+				<p><?php echo $result_get_fruit['product_desc'] ?></p>
+				<p><span class="price"><?php echo $fm->format_currency($result_get_fruit['price'])." VND" ?></span></p>
+				<div class="button"><span><a href="details.php?proid=<?php echo $result_get_fruit['productId'] ?>">Details</a></span></div>
 				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="details-4.php"><img src="images/new-pic2.jpg" alt="" /></a>
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p><span class="price">$621.75</span></p>
-				     <div class="button"><span><a href="details.php" class="details">Details</a></span></div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="details-2.php"><img src="images/feature-pic2.jpg" alt="" /></a>
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p><span class="price">$428.02</span></p>
-				     <div class="button"><span><a href="details.php" class="details">Details</a></span></div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-				 <img src="images/new-pic3.jpg" alt="" />
-					 <h2>Lorem Ipsum is simply </h2>					 
-					 <p><span class="price">$457.88</span></p>   
-				     <div class="button"><span><a href="details.php" class="details">Details</a></span></div>
-				</div>
-			</div>
+				
+				<?php
+				}
+			  }
+			  ?>
     </div>
+	<div class="">
+			<?php
+			$product_fruit = $product->product_fruit();
+			$pr_fruit_count = mysqli_num_rows($product_fruit);
+			
+			$pr_fruit_button =ceil($pr_fruit_count/8);
+
+			$i = 0;
+			echo '<p>Page: </p>';
+			for($i=1;$i<=$pr_fruit_button;$i++){
+				echo '<a style="margin:0 5px" href="products.php?fruitpage='.$i.'">'.$i.'</a>';
+			}
+
+			?>
+
+	    	</div>
+	<div class="content_bottom">
+    		<div class="heading">
+    		<h3>Meat</h3>
+    		</div>
+    		<div class="clear"></div>
+    	</div>
+			<div class="section group">
+			<?php
+			  
+			  $get_meat = $product->getmeat();
+			  if($get_meat){
+				  while( $result_get_meat= $get_meat->fetch_assoc()){
+			  
+			  ?>
+				<div class="grid_1_of_4 images_1_of_4">
+				<a href="details.php?proid=<?php echo $result_get_meat['productId'] ?>"> <img src="admin/uploads/<?php echo $result_get_meat['image'] ?>" alt="" /></a>
+				<p><?php echo $result_get_meat['productName'] ?></p>
+				<p><?php echo $result_get_meat['product_desc'] ?></p>
+				<p><span class="price"><?php echo $fm->format_currency($result_get_meat['price'])." VND" ?></span></p>
+				<div class="button"><span><a href="details.php?proid=<?php echo $result_get_meat['productId'] ?>">Details</a></span></div>
+				</div>
+				
+				<?php
+				}
+			  }
+			  ?>
+    </div>
+	<div class="">
+			<?php
+			$product_meat = $product->product_meat();
+			$pr_meat_count = mysqli_num_rows($product_meat);
+			
+			$pr_meat_button =ceil($pr_meat_count/8);
+
+			$i = 0;
+			echo '<p>Page: </p>';
+			for($i=1;$i<=$pr_meat_button;$i++){
+				echo '<a style="margin:0 5px" href="products.php?meatpage='.$i.'">'.$i.'</a>';
+			}
+
+			?>
+
+	    	</div>
+	<div class="content_bottom">
+    		<div class="heading">
+    		<h3>Chicken</h3>
+    		</div>
+    		<div class="clear"></div>
+    	</div>
+			<div class="section group">
+			<?php
+			  
+			  $get_chicken = $product->getchicken();
+			  if($get_chicken){
+				  while( $result_get_chicken= $get_chicken->fetch_assoc()){
+			  
+			  ?>
+				<div class="grid_1_of_4 images_1_of_4">
+				<a href="details.php?proid=<?php echo $re['productId'] ?>"> <img src="admin/uploads/<?php echo $result_get_chicken['image'] ?>" alt="" /></a>
+				<p><?php echo $result_get_chicken['productName'] ?></p>
+				<p><?php echo $result_get_chicken['product_desc'] ?></p>
+				<p><span class="price"><?php echo $fm->format_currency($result_get_chicken['price'])." VND"?></span></p>
+				<div class="button"><span><a href="details.php?proid=<?php echo $result_get_chicken['productId'] ?>">Details</a></span></div>
+				</div>
+				
+				<?php
+				}
+			  }
+			  ?>
+    </div>
+	<div class="">
+			<?php
+			$product_chicken = $product->product_chicken();
+			$pr_chicken_count = mysqli_num_rows($product_chicken);
+			
+			$pr_chicken_button =ceil($pr_chicken_count/8);
+
+			$i = 0;
+			echo '<p>Page: </p>';
+			for($i=1;$i<=$pr_chicken_button;$i++){
+				echo '<a style="margin:0 5px" href="products.php?chickenpage='.$i.'">'.$i.'</a>';
+			}
+
+			?>
+
+	    	</div>
+
+			<div class="content_bottom">
+    		<div class="heading">
+    		<h3>Fish</h3>
+    		</div>
+    		<div class="clear"></div>
+    	</div>
+			<div class="section group">
+			<?php
+			  
+			  $get_fish = $product->getfish();
+			  if($get_fish){
+				  while( $result_get_fish= $get_fish->fetch_assoc()){
+			  
+			  ?>
+				<div class="grid_1_of_4 images_1_of_4">
+				<a href="details.php?proid=<?php echo $re['productId'] ?>"> <img src="admin/uploads/<?php echo $result_get_fish['image'] ?>" alt="" /></a>
+				<p><?php echo $result_get_fish['productName'] ?></p>
+				<p><?php echo $result_get_fish['product_desc'] ?></p>
+				<p><span class="price"><?php echo $fm->format_currency($result_get_fish['price'])." VND"?></span></p>
+				<div class="button"><span><a href="details.php?proid=<?php echo $result_get_fish['productId'] ?>">Details</a></span></div>
+				</div>
+				
+				<?php
+				}
+			  }
+			  ?>
+    </div>
+	<div class="">
+			<?php
+			$product_fish = $product->product_fish();
+			$pr_fish_count = mysqli_num_rows($product_fish);
+			
+			$pr_fish_button =ceil($pr_fish_count/8);
+
+			$i = 0;
+			echo '<p>Page: </p>';
+			for($i=1;$i<=$pr_fish_button;$i++){
+				echo '<a style="margin:0 5px" href="products.php?fishpage='.$i.'">'.$i.'</a>';
+			}
+
+			?>
+
+	    	</div>
  </div>
+</div>
 
  <?php
  include 'inc/footer.php';

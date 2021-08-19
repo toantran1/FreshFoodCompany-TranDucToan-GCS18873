@@ -26,7 +26,7 @@ if(!isset($_GET['id'])){
     <div class="content">
     	<div class="cartoption">		
 			<div class="cartpage">
-			    	<h2>Your Cart</h2>
+			    	<h2><img src="images/shopping_cart1.png" alt="" width="35px">Your Cart</h2>
 					<?php
 					if(isset($update_quantity_cart)){
 						echo $update_quantity_cart;
@@ -61,7 +61,7 @@ if(!isset($_GET['id'])){
 							<tr>
 								<td><?php echo $result['productName'] ?></td>
 								<td><img src="admin/uploads/<?php echo $result['image'] ?>" alt=""/></td>
-								<td><?php echo $result['price'] ?></td>
+								<td><?php echo $fm->format_currency($result['price']) ?></td>
 								<td>
 									<form action="" method="post">
 										<input type="hidden" name="cartId" min= "0" value="<?php echo $result['cartId'] ?>"/>
@@ -72,7 +72,7 @@ if(!isset($_GET['id'])){
 								<td>
 								<?php
 								$total = $result['price'] * $result['quantity'];
-								echo $total; 
+								echo $fm->format_currency($total)." VND"; 
 								?>
 								</td>
 								<td><a onclick="return confirm('Do you want to delete this item from your cart?');" href="?cartid=<?php echo $result['cartId'] ?>">Delete</a></td>
@@ -95,27 +95,33 @@ if(!isset($_GET['id'])){
 								<th>Sub Total : </th>
 								<td><?php	
 														
-								echo $subtotal;
+								echo $fm->format_currency($subtotal)." VND";
 								Session::set('sum',$subtotal);
 								Session::set('qty',$qty);                    //So luong
 								?></td>
 							</tr>
 							<tr>
 								<th>VAT : </th>
-								<td>10%</td>
+								<?php
+								$VAT = 0.1 * $subtotal;
+								?>
+								<td>10%(<?php echo $fm->format_currency($VAT)  ?>)</td>
 							</tr>
 							<tr>
 								<th>Grand Total :</th>
 								<td><?php
-								$VAT = 0.1 * $subtotal;
+								
+								
 								$gtotal = $subtotal + $VAT;
-								echo $gtotal;
+								echo $fm->format_currency($gtotal)." VND";
 								?></td>
 							</tr>
 					   </table>
 					   <?php
 								}else{
-									echo 'Your Cart is empty. Please Shopping now, thanks you!!!';
+									
+									echo '<center><img src="images/empty_cart1.png" alt="" width ="400px"></center>';
+									echo '<center>Your Cart is empty. Please Shopping now, thanks you!!!</center>';
 								} 
 					   ?>
 					</div>
@@ -124,7 +130,7 @@ if(!isset($_GET['id'])){
 							<a href="index.php"> <img src="images/shop.png" alt="" /></a>
 						</div>
 						<div class="shopright">
-							<a href="payment.php"> <img src="images/check.png" alt="" /></a>
+							<a href="payment.php"> <img src="images/checkout.png" alt="" /></a>
 						</div>
 					</div>
     	</div>  	

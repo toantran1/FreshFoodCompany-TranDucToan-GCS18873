@@ -30,7 +30,6 @@ p.Bill{
  <div class="main">
     <div class="content">
     	<div class="section group">
-       <h2 class="order_success">Order Successfully, We will contact for you soon. Thanks you and see you again !!!</h2>
        <?php
        $customerid= Session::get('customer_id');
        $get_total_price = $ct->getTotalPrice($customerid);
@@ -40,16 +39,40 @@ p.Bill{
                $price = $result['price'];
                $total += $price;
 
-           }
-       }
+         
        ?>
+       <div class="total">
+           
+       <h2 class="order_success">Order Successfully, We will contact for you soon. Thanks you and see you again !!!</h2>
        <p class="note_order">Total price you bought: 
        <?php 
        $vat = $total*0.1;
        $totalPrice = $total + $vat;
-       echo $totalPrice.' VND';  ?>  </p>
+       echo $fm->format_currency($totalPrice).' VND';  ?>  </p>
+       <?php echo '<center><img src="images/success_icon.png" alt="" width ="100px"></center>'; ?>
        <p class="Bill">Please click Bill to see your order again <a href="orderdetails.php">Your Bill</a></p>
-   	
+    </div>
+    <?php
+      }
+    }else{
+        echo '<center><img src="images/empty_bag_order.png" alt="" width ="500px"></center>';
+    ?>
+    		<div class="shopping">
+                        <style>
+                            .con_shopping img{
+                                outline:none;
+                                margin-left: 37.5%;
+
+                            }
+                        </style>
+						<div class="con_shopping">
+							<p><a href="index.php"> <img src="images/shop.png" alt="" /></a><p>
+						</div>
+					
+					</div>
+                    <?php
+    }
+                    ?>
  		</div>
  	</div>
     

@@ -58,9 +58,10 @@ class product{
 
     public function show_product(){
         $query = "SELECT tbl_product.*, tbl_category.catName, tbl_brand.brandName
-        FROM tbl_product INNER JOIN tbl_category ON tbl_product.catId = tbl_category.catId
+        FROM tbl_product INNER JOIN tbl_category ON tbl_product.catId = tbl_category.catId 
         INNER JOIN tbl_brand on tbl_product.brandId = tbl_brand.brandId
-                 order by tbl_product.productId desc";
+        
+                 order by tbl_product.productId desc" ;
         $result = $this->db->select($query);
         return $result;
     }
@@ -92,8 +93,8 @@ class product{
         }else{
             if(!empty($file_name)){
                 //If user chose image
-               if($file_size > 51200){
-                    $alert = "<span class ='error'>Image size should be less than 50MB !!!!</span>";
+               if($file_size > 512000){
+                    $alert = "<span class ='error'>Image size should be less than 500MB !!!!</span>";
                     return $alert;
                }elseif(in_array($file_ext, $permited)===false){
             
@@ -139,16 +140,52 @@ class product{
         }
     }
 
-    public function delete_product($id){
-        $query = "DELETE FROM tbl_product WHERE productId ='$id'";
-        $result = $this->db->delete($query);
-        if($result == true){
-            $alert = "<span class ='success'>DELETED SUCCESSFULLY !!!</span>";
-            return $alert;
-        }else{
-            $alert = "<span class ='error'>DELETED FAILED !!!</span>";
-            return $alert;
-        }
+    public function show_hide_product($id){
+        $id = mysqli_real_escape_string($this->db->link, $id);
+        $code_status ="SELECT status FROM tbl_product WHERE productId = $id";
+        $res_status =  $this->db->select($code_status);
+        $result_status= $res_status->fetch_object()->{'status'};
+
+        // $query = "UPDATE tbl_product SET status='1' WHERE productId ='$id' ";
+        // $this->del_favor_product($id,NULL);
+        // $result = $this->db->update($query);
+
+        if ($result_status == 0) {
+            // Show product
+            $query = "UPDATE tbl_product SET status = '1'
+                      WHERE productId = '$id' ";
+                        //Delete favorite product
+                        $this->del_favor_product($id,NULL);
+            } else{
+            //Hide product  
+            $query = "UPDATE tbl_product SET status = '0'
+                      WHERE productId = '$id' ";
+                    
+            }
+            return $this->db->update($query);
+
+
+        // if($result == true){
+        //     $alert = "<span class ='success'>DELETED SUCCESSFULLY !!!</span>";
+        //     return $alert;
+        // }else{
+        //     $alert = "<span class ='error'>DELETED FAILED !!!</span>";
+        //     return $alert;
+        // }
+    }
+
+  
+    public function del_favor_product($productid,$customerid = NULL){
+       if($customerid == NULL){
+        $query = "DELETE FROM tbl_favoriteproduct WHERE productId ='$productid'";
+       }else{
+        $query = "DELETE FROM tbl_favoriteproduct WHERE productId ='$productid' AND  customerId='$customerid'";
+       }
+        
+      
+       return  $this->db->delete($query);
+         
+      
     }
 
     public function getproductbyId($id){
@@ -160,13 +197,39 @@ class product{
 
     // START FRONTEND
     public function getproduct_featured(){
-        $query = "SELECT * FROM tbl_product where type = '0' ";
+        $pr_featured_each_page = 4;
+        if(!isset($_GET['featurepage'])){
+            $page = 1; 
+        }else{
+            $page = $_GET['featurepage'];
+        }
+        $each_feature_page = ($page - 1)* $pr_featured_each_page;
+        $query = "SELECT * FROM tbl_product where type = '0'  AND status = '0' order by productId desc LIMIT $each_feature_page,$pr_featured_each_page";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function get_all_product_featured(){
+        $query = "SELECT * FROM tbl_product where type = '0'  AND status = '0'";
         $result = $this->db->select($query);
         return $result;
     }
 
     public function getproduct_new(){
-        $query = "SELECT * FROM tbl_product order by productId desc LIMIT 4 ";
+        $product_each_page = 8;
+        if(!isset($_GET['page'])){
+            $page = 1; 
+        }else{
+            $page = $_GET['page'];
+        }
+        $each_page = ($page - 1)* $product_each_page;
+        $query = "SELECT * FROM tbl_product WHERE tbl_product.status = '0' order by productId desc LIMIT $each_page,$product_each_page";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function get_all_product(){
+        $query = "SELECT * FROM tbl_product WHERE tbl_product.status = '0'  ";
         $result = $this->db->select($query);
         return $result;
     }
@@ -181,22 +244,22 @@ class product{
 
     }
     public function getLastestFarmerMarkets(){
-        $query = "SELECT * FROM tbl_product WHERE brandId ='2' order by productId desc LIMIT 1 ";
+        $query = "SELECT * FROM tbl_product WHERE brandId ='2' AND status = '0' order by productId desc LIMIT 1 ";
         $result = $this->db->select($query);
         return $result;
     }
     public function getLastestThreeF(){
-        $query = "SELECT * FROM tbl_product WHERE brandId ='3' order by productId desc LIMIT 1 ";
+        $query = "SELECT * FROM tbl_product WHERE brandId ='3'  AND status = '0' order by productId desc LIMIT 1 ";
         $result = $this->db->select($query);
         return $result;
     }
     public function getLastestFreshFood(){
-        $query = "SELECT * FROM tbl_product WHERE brandId ='4' order by productId desc LIMIT 1 ";
+        $query = "SELECT * FROM tbl_product WHERE brandId ='4' AND status = '0' order by productId desc LIMIT 1 ";
         $result = $this->db->select($query);
         return $result;
     }
     public function getLastestHealthyFood(){
-        $query = "SELECT * FROM tbl_product WHERE brandId ='5' order by productId desc LIMIT 1 ";
+        $query = "SELECT * FROM tbl_product WHERE brandId ='5'  AND status = '0' order by productId desc LIMIT 1 ";
         $result = $this->db->select($query);
         return $result;
     }
@@ -234,7 +297,154 @@ class product{
                 return $alert;
             }
         }       
-    }        
+    }   
+
+    public function insert_favorite($productId,$customerId){
+        $productId = mysqli_real_escape_string($this->db->link, $productId);
+        $customerId = mysqli_real_escape_string($this->db->link, $customerId);
+       
+
+        $query = "SELECT * FROM tbl_product WHERE productId ='$productId'";
+        $result = $this->db->select($query)->fetch_assoc();
+        
+        $check_favor_product = "SELECT * FROM tbl_favoriteproduct WHERE productId ='$productId' AND customerId = '$customerId'"; 
+        $result_check_favor_product = $this->db->select($check_favor_product);
+        if($result_check_favor_product){
+                $msg = "<span class ='error'>This Product Already Added to Favorite!</span>";
+                return $msg;
+
+        }else{
+
+        $image = $result['image']; 
+        $price = $result['price']; 
+        $productName = $result['productName']; 
+
+
+            $query_insert = "INSERT INTO tbl_favoriteproduct(productId,image,price,customerId, productName) 
+                                VALUES('$productId','$image','$price','$customerId','$productName')";
+            $insert_favor = $this->db->insert($query_insert);
+
+            if($insert_favor){
+                $alert = "<span class ='success'>Added Favorite Product Successfull !!!</span>";
+                return $alert;
+            }else{
+                $alert = "<span class ='error'>ADD Failed !!!</span>";
+                return $alert;
+            }
+        }    
+    }
+
+    public function getvegetable(){
+        $vegetable_each_page = 8;
+        if(!isset($_GET['vegepage'])){
+            $page = 1; 
+        }else{
+            $page = $_GET['vegepage'];
+        }
+        $pr_vege_each_page = ($page - 1)* $vegetable_each_page;
+        $query = "SELECT * FROM tbl_product WHERE catId ='7'  AND status = '0' LIMIT $pr_vege_each_page,$vegetable_each_page";
+        $result = $this->db->select($query);
+        return $result;
+    }
+    
+    
+    public function getfruit(){
+        $fruit_each_page = 8;
+        if(!isset($_GET['fruitpage'])){
+            $page = 1; 
+        }else{
+            $page = $_GET['fruitpage'];
+        }
+        $pr_fruit_each_page = ($page - 1)* $fruit_each_page;
+        $query = "SELECT * FROM tbl_product WHERE catId ='8'  AND status = '0' LIMIT $pr_fruit_each_page,$fruit_each_page ";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function getmeat(){
+        $meat_each_page = 8;
+        if(!isset($_GET['meatpage'])){
+            $page = 1; 
+        }else{
+            $page = $_GET['meatpage'];
+        }
+        $pr_meat_each_page = ($page - 1)* $meat_each_page;
+        $query = "SELECT * FROM tbl_product WHERE catId ='6'  AND status = '0' LIMIT $pr_meat_each_page,$meat_each_page";
+        $result = $this->db->select($query);
+        return $result;
+    }
+    
+    public function getchicken(){
+        $chicken_each_page = 8;
+        if(!isset($_GET['chickenpage'])){
+            $page = 1; 
+        }else{
+            $page = $_GET['chickenpage'];
+        }
+        $pr_chicken_each_page = ($page - 1)* $chicken_each_page;
+        $query = "SELECT * FROM tbl_product WHERE catId ='3'  AND status = '0' LIMIT $pr_chicken_each_page,$chicken_each_page";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function getfish(){
+        $fish_each_page = 8;
+        if(!isset($_GET['fishpage'])){
+            $page = 1; 
+        }else{
+            $page = $_GET['fishpage'];
+        }
+        $pr_fish_each_page = ($page - 1)* $fish_each_page;
+        $query = "SELECT * FROM tbl_product WHERE catId ='2'  AND status = '0' LIMIT $pr_fish_each_page, $fish_each_page";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function product_vegetable(){
+        $query = "SELECT * FROM tbl_product WHERE catId ='7'  AND status = '0' ";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function product_fruit(){
+        $query = "SELECT * FROM tbl_product WHERE catId ='8'  AND status = '0' ";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function product_meat(){
+        $query = "SELECT * FROM tbl_product WHERE catId ='6'  AND status = '0' ";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function product_chicken(){
+        $query = "SELECT * FROM tbl_product WHERE catId ='3'  AND status = '0' ";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function product_fish(){
+        $query = "SELECT * FROM tbl_product WHERE catId ='2'  AND status = '0' ";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function search_product($search){
+        $query ="SELECT * FROM tbl_product WHERE LOWER(productName) like '%$search%' OR LOWER(product_desc) like '%$search%' OR price like '%$search%'";
+        $min_length = 1;
+        $result_search = $this->db->select($query);
+        if(strlen($search) >= $min_length){
+            return $result_search;
+        }
+        
+       
+       
+
+    }
+
+ 
+  
     
 }
 ?>

@@ -19,7 +19,18 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
 		$AddtoCart = $ct->add_to_cart($quantity,$id);
 	}
 ?> -->
+<?php
 
+ $id = Session::get('customer_id');
+
+if( isset($_GET['idaddress'])){
+   $idaddress= $_GET['idaddress'];
+   
+    $set_default = $cs->set_default($id,$idaddress);
+ 
+}
+
+?>
  <div class="main">
     <div class="content">
     	<div class="section group">
@@ -74,9 +85,33 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
                 <td>:</td>
                 <td><?php echo $result['address'] ?></td>
             </tr>
+                    <!-- <tr>
+            <form action="" method="POST">
+                <style>
+                    .box_left {
+    width: 50%;
+    border: 1px solid #666;
+    float: left;
+    padding: 10px;
+
+}
+                </style>
+                    <div class="box_left">
+                        <h3>Delivery Address:</h3>
+                        <input type="Text" placeholder="Enter new address..."/>
+                    </div>  
+
+            </form>
+</tr> -->
+
 
             <tr>
                 <td colspan="3"><a href="editprofile.php">Update Profile</a> </td>
+                
+            </tr>
+
+            <tr>
+                <td colspan="3"><a href="address.php">Add address</a> </td>
                 
             </tr>
        
@@ -86,8 +121,40 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
             ?>
 
          </table>		
+
+
+
+<table class="tblone">
+    <form action="" method="GET">
+         <?php
+         $id = Session::get('customer_id');
+            $get_address = $cs->show_delivery_address($id);
+            if($get_address){
+                while($result_deli = $get_address->fetch_assoc()){
+
+            
+         ?>
+            <tr>
+                <td>Delivery Address </td>
+                <td>:</td>
+                <td><?php echo $result_deli['address_delivery'] ?></td>
+                <td><a href="?idaddress=<?php echo $result_deli['id'] ?>" type="submit" name="set_default" >Use</a> </td>
+              
+            </tr>
+           
+       
+            <?php
+                }
+            }
+            ?>
+            <tr>
+            <td><a style="background:#aaec8f; border-radius: 10px; padding: 10px" href ="offlinepayment.php"> << Back to the Payment </a></td>
+            </tr>
+    </form>
+</table>		
  		</div>
  	</div>
+        </div>
  <?php
  include 'inc/footer.php';
  ?>

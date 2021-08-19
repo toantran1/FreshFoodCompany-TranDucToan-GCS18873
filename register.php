@@ -101,6 +101,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])){
             <div class="input-group">
             <input type="text" name="phone" placeholder="Enter your phone number..." required>
 			</div>
+		
             <div class="input-group">
             <input type="text" name="password" placeholder="Enter your password..." required>
 			</div>

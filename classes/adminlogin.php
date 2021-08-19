@@ -44,7 +44,7 @@ class adminlogin{
                 header('Location:index.php');
             }else{
                 
-            $alert = "User or Password can be wrong. Please try again !!!";
+            $alert = "<center><span style='color: red;'>User or Password can be wrong. Please try again !!!</span></center>";
             return $alert;
             }
         }

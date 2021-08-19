@@ -3,14 +3,18 @@ include 'inc/header.php';
 //include 'inc/slider.php';
 ?>
 <?php
-if(isset($_GET['orderid']) && $_GET['orderid'] == 'order'){                        // if Id does not exist, it will return catlist page
+if(isset($_GET['orderid']) && $_GET['orderid'] == 'order' ){                        // if Id does not exist, it will return catlist page
     $customerid= Session::get('customer_id');
 	$insertOrder = $ct->insertOrder($customerid);
+
+	$insert_delivery = $ct->insert_delivery($customerid);                  //TEST--------
+
 	$delCart = $ct->del_all_data_cart();
 	header('Location:success.php');
 }
  ?>
 <style>
+
 .box_left {
     width: 50%;
     border: 1px solid #666;
@@ -38,6 +42,7 @@ a.a_order{
 	padding: 10px 70px;
 	color: white;
 	font-size: 25px;
+	border-radius: 24px;
 
 }
 </style>
@@ -89,7 +94,7 @@ a.a_order{
 							<tr>
                                 <td><?php echo $i ?></td>
 								<td><?php echo $result['productName'] ?></td>
-								<td><?php echo $result['price']?></td>
+								<td><?php echo $fm->format_currency($result['price'])?></td>
 								<td>
 									
 										
@@ -100,7 +105,7 @@ a.a_order{
 								<td>
 								<?php
 								$total = $result['price'] * $result['quantity'];
-								echo $total; 
+								echo $fm->format_currency($total); 
 								?>
 							
 							</tr>
@@ -117,26 +122,29 @@ a.a_order{
 								$check_cart = $ct->check_cart();
 								if($check_cart){
 								?>
-						<table style="float:right;text-align:left; margin:6px" width="40%">
+						<table style="float:right;text-align:left; margin:6px" width="50%">
 							<tr>
 								<th>Sub Total : </th>
 								<td><?php	
 														
-								echo $subtotal.' VND';
+								echo $fm->format_currency($subtotal).' VND';
 								Session::set('sum',$subtotal);
 								Session::set('qty',$qty);                    //So luong
 								?></td>
 							</tr>
 							<tr>
 								<th>VAT : </th>
-								<td>10% (<?php echo $VAT = 0.1 * $subtotal; ?>)</td>
+								<?php
+								$VAT = 0.1 * $subtotal;
+								?>
+								<td>10% (<?php echo $fm->format_currency($VAT)  ?>)</td>
 							</tr>
 							<tr>
 								<th>Grand Total :</th>
 								<td><?php
 								$VAT = 0.1 * $subtotal;
 								$gtotal = $subtotal + $VAT;
-								echo $gtotal.' VND';
+								echo $fm->format_currency($gtotal).' VND';
 								?></td>
 							</tr>
                           
@@ -148,6 +156,7 @@ a.a_order{
 					   ?>
 					</div>
             </div>
+		
             <div class="box_right">
             <table class="tblone">
          <?php
@@ -194,20 +203,61 @@ a.a_order{
                 <td><?php echo $result['address'] ?></td>
             </tr>
 
-            <tr>
-                <td colspan="3"><a href="editprofile.php">Update Profile</a> </td>
-                
+			<!-- <tr>
+                <td>Address Delivery </td>
+                <td>:</td>
+                <td><?php echo $result['id_address'] ?></td>
+            </tr> -->
+     
             </tr>
+			<!-- <tr>
+                <td><h4 style="color:green; font-weight:600">Note Delivery Address </h4></td>
+                <td>:</td>
+                <td><input type="text" placeholder="Delivery Address..." name="delivery_address"></td>
+            </tr> -->
        
             <?php
                 }
             }
             ?>
 
-         </table>		
+         </table>	
+		 <table class="tblone">
+    <form action="" method="GET">
+         <?php
+         $id = Session::get('customer_id');
+            $get_address_order = $cs->show_delivery_address_order($id);
+            if($get_address_order){
+                while($result_deli_order = $get_address_order->fetch_assoc()){
+
+            
+         ?>
+            <tr>
+                <td>Delivery Address </td>
+                <td>:</td>
+                <td><?php echo $result_deli_order['address_delivery'] ?></td>
+                
+              
+            </tr>
+           
+       
+            <?php
+                }
+            }
+            ?>
+			   <tr>
+                <td colspan="3"><a href="editprofile.php">Update Profile</a> </td>
+				<tr>
+                <td colspan="3"><a href="address.php">Add Delivery Address</a> </td>
+                
+            </tr>
+    </form>
+</table>			
             </div>
-   	
+ 	
  		</div>
+
+		
  	</div>
     <center><a href="?orderid=order" class="a_order">Order</a></center></br>
 </div>

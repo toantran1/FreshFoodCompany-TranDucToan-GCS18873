@@ -9,8 +9,10 @@ $pd = new product();
 $fm = new Format();
 if(isset($_GET['productid'])){                        // if Id does not exist, it will return catlist page
     $id = $_GET['productid'];
-	$delProduct = $pd->delete_product($id);
+	$show_hide_product = $pd->show_hide_product($id);
 }
+
+
 ?>
 
 
@@ -64,7 +66,20 @@ if(isset($_GET['productid'])){                        // if Id does not exist, i
 					}
 					?></td>
 
-					<td><a href="productedit.php?productid=<?php echo $result['productId']?>">Edit</a> || <a href="?productid=<?php echo $result['productId']?>">Delete</a></td>
+					<td><a href="productedit.php?productid=<?php echo $result['productId']?>">Edit</a> ||
+					<?php
+					if($result['status'] == 0){
+					?>
+					 <a style="color:red;" href="?productid=<?php echo $result['productId']?>">Hide</a>
+					<?php
+					}elseif($result['status'] == 1){
+					?>
+					<a style="color:green;" href="?productid=<?php echo $result['productId']?>">Show</a>
+					<?php
+					}
+					?>
+
+					</td>
 				</tr>
 				<?php
 					}

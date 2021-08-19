@@ -25,8 +25,9 @@ class customer{
         $country = mysqli_real_escape_string($this->db->link, $data['country']);
         $phone = mysqli_real_escape_string($this->db->link, $data['phone']);
         $password = mysqli_real_escape_string($this->db->link, md5($data['password']));
+        
 
-        if($name =="" || $city =="" || $zipcode =="" || $email =="" || $address =="" || $country =="" || $phone =="" || $password ==""){
+        if($name =="" || $city =="" || $zipcode =="" || $email =="" || $address =="" || $country =="" || $phone =="" || $password =="" || $password ==""){
             $alert = "<span class='error'>Fields can't be empty. Please try again!!!</span>";
             return $alert;
         }else{
@@ -56,19 +57,33 @@ class customer{
     public function login_customers($data){
         $email = mysqli_real_escape_string($this->db->link, $data['email']);
         $password = mysqli_real_escape_string($this->db->link, md5($data['password']));
+        
 
         if( empty($email) || empty($password)){
             $alert = "<span class='error'>Email or password can't be empty. Please try again!!!</span>";
             return $alert;
         }else{
-            $check_login = "SELECT * FROM tbl_customer WHERE email='$email' AND password='$password' ";
+            $check_login = "SELECT * FROM tbl_customer WHERE email='$email' AND password='$password' AND block= '0' ";
             $result_check = $this->db->select($check_login);
+
             if($result_check){
                 $value = $result_check->fetch_assoc();
                 Session::set('customer_login',true);
                 Session::set('customer_id',$value['id']);
                 Session::set('customer_name',$value['name']);
-                header('location:order.php');
+                // $t =time();
+                // Session::set('start',$t);
+                // $start_time = Session::set('start',$t) + (30 * 60);
+                // Session::set('expire',$start_time);
+                $_SESSION['start']= time();
+	            $_SESSION['expire'] = $_SESSION['start'] + (45 * 60);
+                header('location:index.php');
+
+            }else if($result_check == false){
+                              
+                $alert = "<span class='error'>This Account Was Blocked !!!</span>";
+                return $alert;
+
             }else{
                 $alert = "<span class='error'>Email or Password doesn't exist. Please try again !!!</span>";
                 return $alert;
@@ -77,7 +92,10 @@ class customer{
     }
 
     public function show_customers($id){
-        $query = "SELECT * FROM tbl_customer WHERE id='$id'";
+        $query = "SELECT * FROM tbl_customer 
+        -- INNER JOIN tbl_deliveryaddress ON tbl_customer.id = tbl_deliveryaddress.customerId   
+        WHERE tbl_customer.id='$id' 
+        -- and tbl_deliveryaddress.default_status = '1' ";
         $result = $this->db->select($query);
         return $result;
     }
@@ -89,6 +107,7 @@ class customer{
         $email = mysqli_real_escape_string($this->db->link, $data['email']);
         $address = mysqli_real_escape_string($this->db->link, $data['address']);      
         $phone = mysqli_real_escape_string($this->db->link, $data['phone']);
+        
        
 
         if($name =="" || $zipcode =="" || $email =="" || $address =="" ||  $phone =="" ){
@@ -108,8 +127,169 @@ class customer{
             }      
     }
 
+    public function show_customer_account(){
+        $query = "SELECT * FROM tbl_customer ORDER BY id ";
+        $result_account = $this->db->select($query);
+        return $result_account;
+    }
 
+    public function activate_account($id){
+        $id = mysqli_real_escape_string($this->db->link, $id);
 
+        $code_block = "SELECT block FROM tbl_customer WHERE id = $id ";
+        $res_block = $this->db->select($code_block);
+        $result_block= $res_block->fetch_object()->{'block'};
+
+        if ($result_block == 0) {
+            $query = "UPDATE tbl_customer SET block = '1'
+                      WHERE id = '$id' ";
+            } else{
+            $query = "UPDATE tbl_customer SET block = '0'
+                      WHERE id = '$id' ";
+            }
+            
+            $result = $this->db->update($query);
+            if($result){
+                $msg = "<span style='color: green;'> Action successfull!!!</span>";
+                return $msg;; 
+            }else{
+                $msg = "<span style='color: red;'>  Action failed failded !!!</span>";
+                return $msg;
     
+            }
+
+        // $query = "UPDATE tbl_customer SET block = '1'
+        //           WHERE id = '$id' ";
+        // $result = $this->db->update($query);
+        // if($result){
+        //     $msg = "<span style='color: green;'> Action successfull!!!</span>";
+        //     return $msg;; 
+        // }else{
+        //     $msg = "<span style='color: red;'>  Action failed failded !!!</span>";
+        //     return $msg;
+
+        // }
+    }
+
+
+    public function insert_comment(){
+        $productId = $_POST['product_id_comment'];
+        $userComment = $_POST['usercomment'];
+        $comment = $_POST['comment'];
+        
+        if($userComment =='' || $comment==''){
+            $alert= "<span class='error'>Fields can't be empty </span>";
+            return $alert;
+        }else{
+             $query = "INSERT INTO tbl_comment(user_comment,comment_detail,productId) 
+                           VALUES('$userComment','$comment','$productId')";
+
+                $result = $this->db->insert($query);
+                if($result == true){
+                    $alert = "<span class ='success'>Comment successfull !!!</span>";
+                    return $alert;
+                }else{
+                    $alert = "<span class ='error'>Comment failded !!!</span>";
+                    return $alert;
+                }           
+
+        }
+
+    }
+
+    // public function insert_cus_comment($customerId){
+    //     $productId = $_POST['product_id_comment'];
+    //     $cus_comment = $_POST['customercomment'];
+    //     $comment = $_POST['comment'];
+        
+    //     if( $comment==''){
+    //         $alert= "<span class='error'>Fields can't be empty </span>";
+    //         return $alert;
+    //     }else{
+    //          $query = "INSERT INTO tbl_comment(user_comment,comment_detail,productId) 
+    //                        VALUES('$cus_comment','$comment','$productId')";
+
+    //             $result = $this->db->insert($query);
+    //             if($result == true){
+    //                 $alert = "<span class ='success'>Comment successfull !!!</span>";
+    //                 return $alert;
+    //             }else{
+    //                 $alert = "<span class ='error'>Comment failded !!!</span>";
+    //                 return $alert;
+    //             }           
+
+    //     }
+
+    // }
+
+    public function show_comment($id){
+        $query = "SELECT * FROM tbl_comment WHERE productId= '$id'  order by comment_id desc LIMIT 8";
+			$result = $this->db->select($query);
+			return $result;
+    }
+
+    public function show_cus_comment($customerid){
+        //TEST===============================================
+        $query = "SELECT * FROM tbl_customer WHERE id= '$customerid' ";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+
+    public function insert_new_address($address,$customerid) {
+        $address =  $this->fm->validation($address);
+        $address = mysqli_real_escape_string($this->db->link, $address);
+        $customerid = mysqli_real_escape_string($this->db->link, $customerid);
+
+        if(empty($address)){
+            $alert= "<span class='error'>Fields can't be empty </span>";
+            return $alert;
+        }else{
+             $query = "INSERT INTO tbl_deliveryaddress(customerId,address_delivery) 
+                           VALUES('$customerid','$address')";
+
+                $result = $this->db->insert($query);
+                if($result == true){
+                    $alert = "<span class ='success'>Add successfull !!!</span>";
+                    return $alert;
+                }else{
+                    $alert = "<span class ='error'>Add failded !!!</span>";
+                    return $alert;
+                }           
+
+        }      
+    }
+
+    public function show_delivery_address($id){
+        $query = "SELECT * FROM tbl_deliveryaddress WHERE customerId='$id' ";
+        $result = $this->db->select($query);
+        return $result;
+    }
+   
+    public function set_default($id, $idaddress){
+      
+        $id = mysqli_real_escape_string($this->db->link, $id);
+      
+        // var_dump($result_default_status);
+        // exit;
+        
+        $query = "UPDATE tbl_deliveryaddress SET default_status = '0'
+                WHERE customerId = '$id' AND id != '$idaddress' ";
+                $this->db->update($query);
+        if (  $idaddress) {
+            
+            $query = "UPDATE tbl_deliveryaddress SET default_status = '1'
+                      WHERE customerId = '$id' AND id = '$idaddress' ";
+                    
+            }
+         
+            return $this->db->update($query);
+    }
+
+    public function show_delivery_address_order($id){
+        $query = "SELECT * FROM tbl_deliveryaddress WHERE customerId='$id' AND default_status ='1'";
+        $result = $this->db->select($query);
+        return $result;
+    }
 }
 ?>

@@ -10,7 +10,7 @@ ul.dc_mm-orange{
 	background: -webkit-linear-gradient(top,  #414045 55%,#2f2e33 100%); 
 	background: -o-linear-gradient(top,  #414045 55%,#2f2e33 100%); 
 	background: -ms-linear-gradient(top,  #414045 55%,#2f2e33 100%); 
-	background: linear-gradient(to bottom,  #414045 55%,#2f2e33 100%); 
+	background: linear-gradient(to bottom,  #1b1b1b 55%,#2f2e33 100%); 
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#414045', endColorstr='#2f2e33',GradientType=0 );
 	font:normal 13px Arial,sans-serif;
 	padding:0;
@@ -35,8 +35,8 @@ ul.dc_mm-orange li a{
 	color:#fff;
 	display:block;
 	float:left;
-	font-size:15px;
-	padding:20px 32px;
+	font-size:13px;
+	padding:17px 20px;
 	text-decoration:none;
 	text-shadow:1px 1px 1px #000;
 	text-transform:uppercase;
@@ -58,7 +58,7 @@ ul.dc_mm-orange li a .dc-mega-icon{
 ul.dc_mm-orange li.mega-hover a,ul.dc_mm-orange li a:hover{
 	color: #FFF;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#70389c',endColorstr='#602d8d');
-	background: -webkit-gradient(linear,left top,left bottom,from(#70389C),to(#602D8D));
+	background: -webkit-gradient(linear,left top,left bottom,from(#27dc24),to(#198e1d));
 	background: -moz-linear-gradient(top,#70389C,#602D8D);
 	background: -o-linear-gradient(top,#70389C,#602D8D);
 	background: -ms-linear-gradient(top,#70389C,#602D8D);

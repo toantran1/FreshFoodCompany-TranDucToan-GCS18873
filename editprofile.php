@@ -62,7 +62,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save'])){
                 <td><input type ="text" name="phone" value="<?php echo $result['phone'] ?>"> </td>
                 
             </tr>
-               >
+               
             <tr>
                 <td>Zip-code </td>
                 <td>:</td>
@@ -82,6 +82,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save'])){
                
             </tr>
 
+      
+        
+
             <tr>
                 <td colspan="3"><input type="submit" name ="save" value="Save" class="grey"> </td>
                 
@@ -96,6 +99,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save'])){
          </form>	
  		</div>
  	</div>
+        </div>
  <?php
  include 'inc/footer.php';
  ?>

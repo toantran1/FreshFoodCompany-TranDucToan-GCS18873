@@ -91,7 +91,7 @@ class category{
     }
 
     public function get_product_by_cat($id){
-        $query = "SELECT * FROM tbl_product WHERE catId = '$id' order by catId desc LIMIT 8";
+        $query = "SELECT * FROM tbl_product WHERE catId = '$id' order by catId desc LIMIT 16";
         $result = $this->db->select($query);
         return $result;
 
@@ -103,5 +103,7 @@ class category{
         $result = $this->db->select($query);
         return $result;
     }
+
+    
 }
 ?>

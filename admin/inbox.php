@@ -44,8 +44,8 @@ if(isset($_GET['deleid'])){
 							<th>Product</th>
 							<th>Quantity</th>
 							<th>Price</th>
-							<th>Customer ID</th>
-							<th>Address</th>
+							<!-- <th>Customer Name</th> -->
+							<th>Profile</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -65,9 +65,9 @@ if(isset($_GET['deleid'])){
 							<td><?php echo $fm->formatDate($result['dateOrder'])?></td>
 							<td><?php echo $result['productName']?></td>
 							<td><?php echo $result['quantity']?></td>
-							<td><?php echo $result['price'].' VND'?></td>
-							<td><?php echo $result['customerId']?></td>
-							<td><a href= "customer.php?customerid=<?php echo $result['customerId'] ?>">View User</a></td>
+							<td><?php echo $fm->format_currency($result['price']).' VND'?></td>
+							<!-- <td><?php echo $result['customerId']?></td> -->
+							<td><a style="color:blue;" href= "customer.php?customerid=<?php echo $result['customerId'] ?>">View User</a></td>
 							
 							<td>
 
