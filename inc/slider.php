@@ -9,12 +9,12 @@
 			?>
 				<div class="listview_1_of_2 images_1_of_2">
 					<div class="listimg listimg_2_of_1">
-						 <a href="details.php?proid=<?php echo $resultFarmerMarkets['productId'] ?>"> <img src="admin/uploads/<?php echo $resultFarmerMarkets['image'] ?>" alt="" /></a>
+						 <a href="detail-products/<?php echo $resultFarmerMarkets['productId'] ?>.html"> <img src="admin/uploads/<?php echo $resultFarmerMarkets['image'] ?>" alt="" /></a>
 					</div>
 				    <div class="text list_2_of_1">
 						<h2>Farmer Market</h2>
 						<p><?php echo $resultFarmerMarkets['productName'] ?></p>
-						<div class="button"><span><a href="details.php?proid=<?php echo $resultFarmerMarkets['productId'] ?>">Add to cart</a></span></div>
+						<div class="button"><span><a href="detail-products/<?php echo $resultFarmerMarkets['productId'] ?>.html">Add to cart</a></span></div>
 				   </div>
 			   </div>	
 			   <?php
@@ -30,12 +30,12 @@
 			?>	
 				<div class="listview_1_of_2 images_1_of_2">
 					<div class="listimg listimg_2_of_1">
-						  <a href="details.php?proid=<?php echo $resultThreeF['productId'] ?>"><img src="admin/uploads/<?php echo $resultThreeF['image'] ?>" /></a>
+						  <a href="detail-products/<?php echo $resultThreeF['productId'] ?>.html"><img src="admin/uploads/<?php echo $resultThreeF['image'] ?>" /></a>
 					</div>
 					<div class="text list_2_of_1">
 						  <h2>3Fs</h2>
 						  <p><?php echo $resultThreeF['productName'] ?></p>
-						  <div class="button"><span><a href="details.php?proid=<?php echo $resultThreeF['productId'] ?>">Add to cart</a></span></div>
+						  <div class="button"><span><a href="detail-products/<?php echo $resultThreeF['productId'] ?>.html">Add to cart</a></span></div>
 					</div>
 				</div>
 			</div>
@@ -53,12 +53,12 @@
 			<div class="section group">
 				<div class="listview_1_of_2 images_1_of_2">
 					<div class="listimg listimg_2_of_1">
-						 <a href="details.php?proid=<?php echo $resultFreshFood['productId'] ?>"> <img src="admin/uploads/<?php echo $resultFreshFood['image']?>" /></a>
+						 <a href="detail-products/<?php echo $resultFreshFood['productId'] ?>.html"> <img src="admin/uploads/<?php echo $resultFreshFood['image']?>" /></a>
 					</div>
 				    <div class="text list_2_of_1">
 						<h2>Fresh Food</h2>
 						<p><?php echo $resultFreshFood['productName'] ?></p>
-						<div class="button"><span><a href="details.php?proid=<?php echo $resultFreshFood['productId'] ?>">Add to cart</a></span></div>
+						<div class="button"><span><a href="detail-products/<?php echo $resultFreshFood['productId'] ?>.html">Add to cart</a></span></div>
 				   </div>
 			   </div>	
 			   <?php
@@ -74,12 +74,12 @@
 
 				<div class="listview_1_of_2 images_1_of_2">
 					<div class="listimg listimg_2_of_1">
-						  <a href="details.php?proid=<?php echo $resultHealthyFood['productId'] ?>"><img src="admin/uploads/<?php echo $resultHealthyFood['image']?>" /></a>
+						  <a href="detail-products/<?php echo $resultHealthyFood['productId'] ?>.html"><img src="admin/uploads/<?php echo $resultHealthyFood['image']?>" /></a>
 					</div>
 					<div class="text list_2_of_1">
 						  <h2>Healthy Food</h2>
 						  <p><?php echo $resultHealthyFood['productName'] ?></p>
-						  <div class="button"><span><a href="details.php?proid=<?php echo $resultHealthyFood['productId'] ?>">Add to cart</a></span></div>
+						  <div class="button"><span><a href="detail-products/<?php echo $resultHealthyFood['productId'] ?>.html">Add to cart</a></span></div>
 					</div>
 				</div>
 				<?php
@@ -95,10 +95,18 @@
 			<section class="slider">
 				  <div class="flexslider">
 					<ul class="slides">
-						<li><img src="images/slide6.jpg" alt=""/></li>
-						<li><img src="images/slide3.jpg" alt=""/></li>
-						<li><img src="images/slide4.jpg" alt=""/></li>
-						<li><img src="images/slide5.jpg" alt=""/></li>
+						<?php
+						$get_slider = $product->show_slider();
+						if($get_slider){
+							while($result_slider= $get_slider->fetch_assoc()){
+						
+						?>
+						<li><a href="<?php echo $result_slider['link_slider'] ?>"><img src="admin/uploads/<?php echo $result_slider['slider_image'] ?>" alt="<?php echo $result_slider['sliderName']?>"/></a></li>
+					
+						<?php
+							}
+						}
+						?>
 				    </ul>
 				  </div>
 	      </section>

@@ -84,6 +84,8 @@ $cs = new customer();
                                 class="medium" />
                             </td>
                         </tr>
+
+                        
                      
 					
                     </table>
@@ -92,6 +94,21 @@ $cs = new customer();
                     }
                 }
                     ?>
+                    <form action="" method ="POST">
+                        <h3>Delivery Address:</h3>
+                        <?php
+                         
+                         $get_address_order_cus = $cs->show_delivery_address_order($id);
+                         if($get_address_order_cus){
+                             while($result_deli_order_cus = $get_address_order_cus->fetch_assoc()){
+             
+                        ?>
+                        <h4 style="color:green;"><?php echo $result_deli_order_cus['address_delivery'] ?></h4>
+                        <?php
+                             }
+                            }
+                        ?>
+                    </form>
                 </div>
             </div>
         </div>

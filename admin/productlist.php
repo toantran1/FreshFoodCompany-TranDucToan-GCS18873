@@ -7,8 +7,8 @@
 <?php 
 $pd = new product();
 $fm = new Format();
-if(isset($_GET['productid'])){                        // if Id does not exist, it will return catlist page
-    $id = $_GET['productid'];
+if (isset($_GET['productid'])){                       
+    $id = $_GET['productid'];	
 	$show_hide_product = $pd->show_hide_product($id);
 }
 
@@ -25,6 +25,7 @@ if(isset($_GET['productid'])){                        // if Id does not exist, i
                     echo $delProduct;
                 }
                 ?>	
+				
             <table class="data display datatable" id="example">
 			<thead>
 				<tr>
@@ -39,7 +40,9 @@ if(isset($_GET['productid'])){                        // if Id does not exist, i
 					<th>Action</th>
 				</tr>
 			</thead>
+			
 			<tbody>
+			
 			<?php
 			
 			
@@ -70,11 +73,15 @@ if(isset($_GET['productid'])){                        // if Id does not exist, i
 					<?php
 					if($result['status'] == 0){
 					?>
-					 <a style="color:red;" href="?productid=<?php echo $result['productId']?>">Hide</a>
-					<?php
+					
+					 <a class="hide" style="color:red;" href="?productid=<?php echo $result['productId']?>">Hide</a>
+					
+					<?php					
 					}elseif($result['status'] == 1){
 					?>
-					<a style="color:green;" href="?productid=<?php echo $result['productId']?>">Show</a>
+					
+					 <a style="color:green;" href="?productid=<?php echo $result['productId']?>">Show</a>     
+				
 					<?php
 					}
 					?>
@@ -86,8 +93,9 @@ if(isset($_GET['productid'])){                        // if Id does not exist, i
 				}
 				?>
 			</tbody>
+			
 		</table>
-
+		
        </div>
     </div>
 </div>
@@ -98,5 +106,6 @@ if(isset($_GET['productid'])){                        // if Id does not exist, i
         $('.datatable').dataTable();
 		setSidebarHeight();
     });
+  
 </script>
 <?php include 'inc/footer.php';?>

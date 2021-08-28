@@ -5,20 +5,10 @@ include 'inc/header.php';
  <?php
 	 	 $login_check = Session:: get('customer_login');
 		  if($login_check == false){
-			header('Location:login.php');
+			header('Location:login.html');
 		}
 	  ?>
-<!-- <?php
-if(!isset($_GET['proid']) || $_GET['proid'] == NULL){                        // if Id does not exist, it will return catlist page
-    echo "<script> window.location = '404.html'</script>";
-}else{
-    $id = $_GET['proid'];
-	}
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
-	    $quantity = $_POST['quantity'];
-		$AddtoCart = $ct->add_to_cart($quantity,$id);
-	}
-?> -->
+
 <style>
 /* h3.payment{
     margin-bottom: 20px;
@@ -57,9 +47,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
             <div class ="wrapper_method">
             <!-- <h3 class ="payment"> Please, choose your payment method</h3> -->
             <center><img src="images/payment_icon.png"><center>
-            <a class ="payment_href" href="offlinepayment.php"> Offline Payment</a>
+            <a class ="payment_href" href="offlinepayment"> Offline Payment</a>
             <a class ="payment_href" href="404.html"> Online Payment</a></br></br></br>
-            <a style="background:#ab2222; border-radius: 10px" href ="cart.php"> << Back the Cart </a>
+            <a style="background:#ab2222; border-radius: 10px" href ="cart.html"> << Back the Cart </a>
             </div>
             
     	</div>
@@ -67,6 +57,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
  		
  		</div>
  	</div>
+</div>
  <?php
  include 'inc/footer.php';
  ?>

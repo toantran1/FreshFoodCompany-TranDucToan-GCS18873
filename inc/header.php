@@ -27,6 +27,8 @@ $product = new product();
 <!DOCTYPE HTML>
 <head>
 <title>Fresh Food Company</title>
+<base href="http://localhost:81/website_mvc/"/>
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
@@ -54,12 +56,12 @@ $product = new product();
   <div class="wrap">
 		<div class="header_top">
 			<div class="logo">
-				<a href="index.php"><img src="images/logo1.png" alt="" /></a>
+				<a href="index.html"><img src="images/logo1.png" alt="home" /></a>
 			</div>
 			  <div class="header_top_right">
 				
 			    <div class="search_box">
-				    <form action="search.php" method="GET">
+				    <form action="search.html" method="GET">
 				    	<input type="text" placeholder="Search for products..." name="search_prod"><input type="submit" name="search_submit" value="SEARCH">
 				    </form>
 					
@@ -97,14 +99,14 @@ $product = new product();
 		   <?php
 		   $login_check = Session:: get('customer_login');
 		   if($login_check == false){
-			   echo '<a href="login.php">Login</a></div>';
-		   }else{
+			   echo '<a href="login.html">Login</a></div>';
+		   } else{
 			
 
 			    $now = time(); // Checking the time now when home page starts.
 				
 				if ($now >  $_SESSION['expire']) {					
-					session_destroy();
+					session::destroy();
 				}
 				echo '<a href="?customerid='.Session::get("customer_id").'">Logout</a></div>';	
 				// }else{
@@ -130,7 +132,7 @@ $product = new product();
 			<img src="admin/img/img-profile.jpg" alt="Profile Pic" /></div>
 			<div class="float_left marginleft10px"> 
 					<div class="inline">
-			<a  style="color:green; font-weight:600" href="profile.php ">Hello! <?php echo $check_name ?></a></div>
+			<a  style="color:green; font-weight:600" href="profile.html ">Hello! <?php echo $check_name ?></a></div>
 		</div>
 		<?php
 		}
@@ -143,14 +145,14 @@ $product = new product();
 
     
 	<ul id="dc_mega-menu-orange" class="dc_mm-orange">
-	  <li><a href="index.php">Home</a></li>
-	  <li><a href="products.php">Products</a> </li>
-	  <!-- <li><a href="topbrands.php">Top Brands</a></li> -->
+	  <li><a href="index.html">Home</a></li>
+	  <li><a href="products.html">Products</a> </li>
+
 
 	  <?php
 	 	$check_cart = $ct->check_cart();
 		 if($check_cart){
-			 echo ' <li><a href="cart.php">Cart</a></li>';
+			 echo ' <li><a href="cart.html">Cart</a></li>';
 		 }else{
 			 echo '';
 		 }
@@ -160,37 +162,31 @@ $product = new product();
 		 $customerid= Session::get('customer_id');
 	 	$check_order = $ct->check_order($customerid);
 		 if($check_order){
-			 echo ' <li><a href="orderdetails.php">Ordered</a></li>';
+			 echo ' <li><a href="orderdetails.html">Ordered</a></li>';
 		 }else{
 			 echo '';
 		 }
 	  	?>
-	  <!-- <li><a href="cart.php">Cart</a></li> -->
+	 
 	  <?php
 	 	 $login_check = Session:: get('customer_login');
 		  if($login_check == false){
 			echo '';
 		}else{
-			echo '<li><a href="profile.php">Profile</a> </li>';
+			echo '<li><a href="profile.html">Profile</a> </li>';
 		}
 	  ?>
-	  <!-- <?php
-	  
-	  $login_check = Session:: get('customer_login');
-	  if($login_check ){
-		echo '<li><a href="compare.php">Compare Product</a> </li>';
-	  }
-	  ?> -->
+
 
 		<?php
 	  
 	  $login_check = Session:: get('customer_login');
 	  if($login_check ){
-		echo '<li><a href="favoriteproduct.php">Favorite</a> </li>';
+		echo '<li><a href="favoriteproduct.html">Favorite</a> </li>';
 	  }
 	  ?>
 
-	  <li><a href="contact.php">Contact</a> </li>	
+	  <li><a href="contact.html">Contact</a> </li>	
 
 
 	  <div class="clear"></div>

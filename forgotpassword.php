@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<base href="http://localhost:81/website_mvc/"/>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -24,7 +25,7 @@
 			<div class="input-group">
 				<button name="login" class="btn">Continute</button>
 			</div>
-            <center><p class="login-register-text"><a href="login.php">Back to login.</a></p></center>
+            <center><p class="login-register-text"><a href="login.html">Back to login.</a></p></center>
 	
 		</form>
 	

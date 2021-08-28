@@ -3,9 +3,14 @@ include_once 'inc/header.php';
 //include_once 'inc/slider.php';
 ?>
 <?php
+if(isset($_GET['productId'])){        
+	$customerid=Session::get('customer_id');                   
+    $productid = $_GET['productId'];
+	$delCart = $product->delete_product_cart_hide($productid, $customerid);
+}
 if(isset($_GET['cartid'])){                        
-    $cartid = $_GET['cartid'];
-	$delCart = $ct->delete_product_cart($cartid);
+    $cartId = $_GET['cartid'];
+	$delCart = $ct->delete_product_cart($cartId);
 }
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
 		$cartId = $_POST['cartId'];
@@ -19,7 +24,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
 ?>
 <?php 
 if(!isset($_GET['id'])){
-	echo "<meta http-equiv='refresh' content='0;URL=?id=live'>";
+	echo "<meta http-equiv='refresh' content='0;URL=cart.html?id=live'>";
 }
 ?>
  <div class="main">
@@ -75,7 +80,7 @@ if(!isset($_GET['id'])){
 								echo $fm->format_currency($total)." VND"; 
 								?>
 								</td>
-								<td><a onclick="return confirm('Do you want to delete this item from your cart?');" href="?cartid=<?php echo $result['cartId'] ?>">Delete</a></td>
+								<td><a onclick="return confirm('Do you want to delete this item from your cart?');" href="cart.html?cartid=<?php echo $result['cartId'] ?>.html">Delete</a></td>
 							</tr>
 							
 							 <?php
@@ -127,10 +132,10 @@ if(!isset($_GET['id'])){
 					</div>
 					<div class="shopping">
 						<div class="shopleft">
-							<a href="index.php"> <img src="images/shop.png" alt="" /></a>
+							<a href="index.html"> <img src="images/shop.png" alt="" /></a>
 						</div>
 						<div class="shopright">
-							<a href="payment.php"> <img src="images/checkout.png" alt="" /></a>
+							<a href="payment.html"> <img src="images/checkout.png" alt="" /></a>
 						</div>
 					</div>
     	</div>  	

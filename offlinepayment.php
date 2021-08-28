@@ -3,16 +3,17 @@ include 'inc/header.php';
 //include 'inc/slider.php';
 ?>
 <?php
-if(isset($_GET['orderid']) && $_GET['orderid'] == 'order' ){                        // if Id does not exist, it will return catlist page
+if(isset($_GET['orderid']) && $_GET['orderid'] == 'order' ){                        
     $customerid= Session::get('customer_id');
 	$insertOrder = $ct->insertOrder($customerid);
 
-	$insert_delivery = $ct->insert_delivery($customerid);                  //TEST--------
+	$insert_delivery = $ct->insert_delivery($customerid);                 
 
 	$delCart = $ct->del_all_data_cart();
-	header('Location:success.php');
+	header('Location:success.html');
 }
  ?>
+ 
 <style>
 
 .box_left {
@@ -246,9 +247,9 @@ a.a_order{
             }
             ?>
 			   <tr>
-                <td colspan="3"><a href="editprofile.php">Update Profile</a> </td>
+                <td colspan="3"><a href="editprofile.html">Update Profile</a> </td>
 				<tr>
-                <td colspan="3"><a href="address.php">Add Delivery Address</a> </td>
+                <td colspan="3"><a href="address.html">Add Delivery Address</a> </td>
                 
             </tr>
     </form>
@@ -259,7 +260,7 @@ a.a_order{
 
 		
  	</div>
-    <center><a href="?orderid=order" class="a_order">Order</a></center></br>
+    <center><a href="offlinepayment?orderid=order" class="a_order">Order</a></center></br>
 </div>
         </form>
  <?php

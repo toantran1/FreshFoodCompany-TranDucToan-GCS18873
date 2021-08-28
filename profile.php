@@ -8,17 +8,7 @@ include 'inc/header.php';
 			header('Location:login.php');
 		}
 	  ?>
-<!-- <?php
-if(!isset($_GET['proid']) || $_GET['proid'] == NULL){                        // if Id does not exist, it will return catlist page
-    echo "<script> window.location = '404.html'</script>";
-}else{
-    $id = $_GET['proid'];
-	}
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
-	    $quantity = $_POST['quantity'];
-		$AddtoCart = $ct->add_to_cart($quantity,$id);
-	}
-?> -->
+
 <?php
 
  $id = Session::get('customer_id');
@@ -28,6 +18,18 @@ if( isset($_GET['idaddress'])){
    
     $set_default = $cs->set_default($id,$idaddress);
  
+}
+
+?>
+<?php
+
+$id = Session::get('customer_id');
+
+if( isset($_GET['deladdress'])){
+  $del_address= $_GET['deladdress'];
+  
+   $delete_address_delivery = $cs->delete_address_delivery($id,$del_address);
+
 }
 
 ?>
@@ -106,47 +108,72 @@ if( isset($_GET['idaddress'])){
 
 
             <tr>
-                <td colspan="3"><a href="editprofile.php">Update Profile</a> </td>
+                <td colspan="3"><a href="editprofile.html">Update Profile</a> </td>
                 
             </tr>
 
-            <tr>
-                <td colspan="3"><a href="address.php">Add address</a> </td>
-                
-            </tr>
-       
             <?php
                 }
             }
             ?>
+           
 
          </table>		
 
-
-
+         </div>
+ 	</div>
+        
+     <div class="content">
+    	<div class="section group">
+        <div class="content_top">
+    		<div class="heading">
+    		<h3>Delivery Address</h3>
+    		</div>
+    		<div class="clear"></div>
+    	</div>
 <table class="tblone">
+
     <form action="" method="GET">
          <?php
          $id = Session::get('customer_id');
             $get_address = $cs->show_delivery_address($id);
             if($get_address){
+                $i = 0;
                 while($result_deli = $get_address->fetch_assoc()){
-
+                        $i++;
             
          ?>
             <tr>
-                <td>Delivery Address </td>
+                
+                <td><?php echo $i; ?>-Delivery Address </td>
                 <td>:</td>
                 <td><?php echo $result_deli['address_delivery'] ?></td>
-                <td><a href="?idaddress=<?php echo $result_deli['id'] ?>" type="submit" name="set_default" >Use</a> </td>
+                <td><a href="profile.html?idaddress=<?php echo $result_deli['id'] ?>" type="submit" name="set_default" >Use</a></td>
+                <td>||</td>
+                <td><a href="?deladdress=<?php echo $result_deli['id'] ?>" type="submit" name="del_address" >Delete</a> </td>
               
             </tr>
            
        
             <?php
                 }
+            }else{
+                echo'<center><img src="images/address_icon.png" alt="" width ="150px"></center>';
+                echo '<center><a style="color:#cc3636; font-weight: 600;" ">No new shipping addresses have been added yet!</a></center>';
             }
             ?>
+            <tr>
+
+            </tr>
+             <tr>
+                <td colspan="3"><a href="address.html">Add Delivery Address</a> </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                
+            </tr>
             <tr>
             <td><a style="background:#aaec8f; border-radius: 10px; padding: 10px" href ="offlinepayment.php"> << Back to the Payment </a></td>
             </tr>

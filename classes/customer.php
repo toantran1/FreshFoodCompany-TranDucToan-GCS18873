@@ -71,16 +71,12 @@ class customer{
                 Session::set('customer_login',true);
                 Session::set('customer_id',$value['id']);
                 Session::set('customer_name',$value['name']);
-                // $t =time();
-                // Session::set('start',$t);
-                // $start_time = Session::set('start',$t) + (30 * 60);
-                // Session::set('expire',$start_time);
+             
                 $_SESSION['start']= time();
-	            $_SESSION['expire'] = $_SESSION['start'] + (45 * 60);
-                header('location:index.php');
+	            $_SESSION['expire'] = $_SESSION['start'] + (60 * 60);
+                header('location:index.html');
 
             }else if($result_check == false){
-                              
                 $alert = "<span class='error'>This Account Was Blocked !!!</span>";
                 return $alert;
 
@@ -92,10 +88,7 @@ class customer{
     }
 
     public function show_customers($id){
-        $query = "SELECT * FROM tbl_customer 
-        -- INNER JOIN tbl_deliveryaddress ON tbl_customer.id = tbl_deliveryaddress.customerId   
-        WHERE tbl_customer.id='$id' 
-        -- and tbl_deliveryaddress.default_status = '1' ";
+        $query = "SELECT * FROM tbl_customer  WHERE tbl_customer.id='$id' ";
         $result = $this->db->select($query);
         return $result;
     }
@@ -197,6 +190,71 @@ class customer{
 
     }
 
+    public function insert_cus_contact($customerid){
+       
+        $userContact = $_POST['usercontact'];
+        $userEmail = $_POST['useremail'];
+        $userPhone = $_POST['userphone'];
+        $subject = $_POST['subject'];
+        
+        if($userContact =='' || $userEmail =='' || $userPhone =='' || $subject == ''){
+            $alert= "<span class='error'>Fields can't be empty </span>";
+            return $alert;
+        }else{
+             $query = "INSERT INTO tbl_contact(customerId,customerName,customer_email,phone, subject) 
+                           VALUES('$customerid','$userContact','$userEmail','$userPhone','$subject')";
+
+                $result = $this->db->insert($query);
+                if($result == true){
+                    $alert = "<span class ='success'>Send successfull !!!</span>";
+                    return $alert;
+                   
+                }else{
+                    $alert = "<span class ='error'>Send failded !!!</span>";
+                    return $alert;
+                }           
+
+        }   
+    }
+
+    public function getUserContact(){
+        $query = "SELECT * FROM tbl_contact WHERE contact_status != '2'  ORDER BY date_send desc";
+        $get_contact = $this->db-> select($query);
+        return $get_contact;
+    }
+
+    public function contact_user($id){
+        $id = mysqli_real_escape_string($this->db->link, $id);
+
+        $code_contact_status = "SELECT contact_status FROM tbl_contact
+                  WHERE id_contact = '$id'";
+        $res_contact_status = $this->db->select($code_contact_status);
+        $result_contact_status = $res_contact_status->fetch_object()->{'contact_status'};
+
+        if ($result_contact_status == 0) {
+            $query = "UPDATE tbl_contact SET contact_status = '1'
+                      WHERE id_contact = '$id'";
+            }
+            $result = $this->db->update($query);
+            return $result;
+    }
+
+    public function delete_contact_user($id_del){
+        $id_del = mysqli_real_escape_string($this->db->link, $id_del);
+
+         $code_contact_status_del = "SELECT contact_status FROM tbl_contact 
+                  WHERE id_contact = '$id_del' ";
+        $res_contact_status_del = $this->db->select($code_contact_status_del);
+        $result_contact_status_del = $res_contact_status_del->fetch_object()->{'contact_status'};
+
+    if ($result_contact_status_del  == 1) {
+        $query_del = "UPDATE tbl_contact SET contact_status = '2'
+                  WHERE id_contact = '$id_del'";
+    }
+    $result = $this->db->update($query_del);
+    return $result;
+    }
+
     // public function insert_cus_comment($customerId){
     //     $productId = $_POST['product_id_comment'];
     //     $cus_comment = $_POST['customercomment'];
@@ -287,8 +345,14 @@ class customer{
     }
 
     public function show_delivery_address_order($id){
-        $query = "SELECT * FROM tbl_deliveryaddress WHERE customerId='$id' AND default_status ='1'";
+        $query = "SELECT * FROM tbl_deliveryaddress WHERE customerId='$id' AND default_status ='1' ORDER BY id desc";
         $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function delete_address_delivery($id,$del_address){
+        $query =" DELETE FROM tbl_deliveryaddress WHERE id = '$del_address' and customerId = '$id'  ";
+        $result = $this->db->delete($query);
         return $result;
     }
 }

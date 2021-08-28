@@ -1,0 +1,22 @@
+RewriteEngine On
+
+RewriteRule "index.html" "index.php"
+RewriteRule "products.html" "products.php"
+RewriteRule "cart.html" "cart.php"
+RewriteRule "orderdetails.html" "orderdetails.php"
+RewriteRule "contact.html" "contact.php"
+RewriteRule "login.html" "login.php"
+RewriteRule "register.html" "register.php"
+RewriteRule "forgotpassword.html" "forgotpassword.php"
+RewriteRule "profile.html" "profile.php"
+RewriteRule "favoriteproduct.html" "favoriteproduct.php"
+RewriteRule "editprofile.html" "editprofile.php"
+RewriteRule "address.html" "address.php"
+RewriteRule "success.html" "success.php"
+RewriteRule "payment.html" "payment.php"
+RewriteRule "offlinepayment" "offlinepayment.php"
+RewriteRule "search.html" "search.php"
+
+RewriteRule "^detail-products/([0-9]+).html$" "details.php?proid=$1"
+RewriteRule "^category-product/id-([0-9]+).html$" "productbycat.php?catid=$1"
+#RewriteRule "^result-product/enter-([a-zA-Z0-9]+).html$" "search.php?search_prod=$1&search_submit=SEARCH"

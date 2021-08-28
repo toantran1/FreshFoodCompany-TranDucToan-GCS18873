@@ -3,7 +3,7 @@
 //include 'inc/slider.php';
 ?>
 
-<?php //===========================TEST========================================
+<?php 
 include 'lib/session.php';
 Session::init();
 ?>
@@ -27,14 +27,14 @@ $product = new product();
   header("Pragma: no-cache"); 
   header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); 
   header("Cache-Control: max-age=2592000");
-  //=======================================================================
+  
 ?>
 
 
 <?php
    $login_check = Session:: get('customer_login');
    if($login_check){
-	   header('Location: index.php');
+	   header('Location: index.html');
    }
 ?>
 
@@ -155,6 +155,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])){
 <!DOCTYPE html>
 <html>
 <head>
+<base href="http://localhost:81/website_mvc/"/>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -168,7 +169,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])){
 	<div class="container">
 		
 	
-		<form action="" method="POST" class="login-email">
+		<form action="login.html" method="POST" class="login-email">
 			<p class="login-text" style="font-size: 2rem; font-weight: 800;">Login</p>
 			<div class="input-group">
 				<input type="email" name="email"  placeholder="Enter your email..." required>
@@ -179,8 +180,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])){
 			<div class="input-group">
 				<button name="login" class="btn">Login</button>
 			</div>
-			<p class="login-register-text">Don't have an account? <a href="register.php">Register Here</a>.</p>
-			<p class="login-register-text"><a href="forgotpassword.php">Forgot Password?</a></p>
+			<p class="login-register-text">Don't have an account? <a href="register.html">Register Here</a>.</p>
+			<p class="login-register-text"><a href="forgotpassword.html">Forgot Password?</a></p>
 		</form>
 		<?php
 				if(isset($login_Customers)){

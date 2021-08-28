@@ -495,7 +495,8 @@ p.note{
 .list_2_of_1  h2 {
 	color:#CC3636;
 	font-size:1.2em;
-	font-family: 'Monda', sans-serif;
+	/* font-family: 'Monda', sans-serif; */
+	font-family: Arial black;
 	font-weight : normal;
 	text-transform:uppercase;
 }
@@ -945,8 +946,9 @@ p.note{
   width: 100%;
 }
 .span_3_of_2  h2 {
-	font-family: 'Monda', sans-serif;
-	font-size:1.1em;
+	/* font-family: 'Monda', sans-serif; */
+	font-family: Arial black;
+	font-size:1.3em;
 	color: #CC3636;
 	font-weight : normal;
 	margin-top: 0px;
@@ -1506,12 +1508,12 @@ table.tblone img {
 .contact-form input[type="submit"]{
 	padding:7px 25px;
 	cursor:pointer;
-	background:#FFF url(../images/large-button-overlay.png);
+	background:#22c71f url(../images/large-button-overlay.png);
     font-family:Arial, Helvetica, sans-serif;
     position:absolute;
     right:0;
     border: 1px solid #ccc;
-	color: #555 !important;
+	color: #fff !important;
 	font-size:1em;
 	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
 }

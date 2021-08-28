@@ -39,7 +39,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_address'])){
             </tr>
             <tr>
         
-            <td><a style="background:#aaec8f; border-radius: 10px; padding: 10px" href ="profile.php"> << Back to the Profile </a></td>
+            <td><a style="background:#aaec8f; border-radius: 10px; padding: 10px" href ="profile.html"> << Back to the Profile </a></td>
            
             </tr>
            

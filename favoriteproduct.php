@@ -8,6 +8,7 @@ include_once 'inc/header.php';
        $productid = $_GET['proid'];
 	   
        $del_favorite = $product->del_favor_product($productid,$customerid);
+	
  }
 ?>
 <style>
@@ -52,8 +53,8 @@ include_once 'inc/header.php';
 								<td><?php echo $fm->format_currency($result['price'])." VND" ?></td>
 							
 								<td>
-                                <a href="?proid=<?php echo $result['productId'] ?>">Remove</a> ||
-                                <a href="details.php?proid=<?php echo $result['productId'] ?>">Buy now</a>
+                                <a onclick="return confirm('Do you want to delete this item from your Wishlist?');" href="favoriteproduct.html?proid=<?php echo $result['productId'] ?>">Remove</a> ||
+                                <a href="detail-products/<?php echo $result['productId'] ?>.html">Add to cart</a>
                                 </td>
 							</tr>
 							
@@ -82,7 +83,7 @@ include_once 'inc/header.php';
                             }
                         </style>
 						<div class="con_shopping">
-							<p><a href="index.php"> <img src="images/shop.png" alt="" /></a><p>
+							<p><a href="index.html"> <img src="images/shop.png" alt="" /></a><p>
 						</div>
 					
 					</div>

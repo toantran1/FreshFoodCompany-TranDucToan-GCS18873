@@ -21,25 +21,24 @@
                     </ul>
                 </li>
 
-               <li><a class="menuitem">Site Option</a>
+               <!-- <li><a class="menuitem">Site Option</a>
                     <ul class="submenu">
                         <li><a href="titleslogan.php">Title & Slogan</a></li>
                         <li><a href="social.php">Social Media</a></li>
                         <li><a href="copyright.php">Copyright</a></li>
                         
                     </ul>
-                </li>
+                </li> -->
 				
                 
-                 <li><a class="menuitem">Update Pages</a>
-                    <ul class="submenu">
-                        <li><a>About Us</a></li>
-                        <li><a>Contact Us</a></li>
+                 <li><a class="menuitem">Contact</a>
+                    <ul class="submenu">                     
+                        <li><a href="contactus.php">Contact Us</a></li>
                     </ul>
                 </li>
-				<li><a class="menuitem">Slider Option</a>
+				<li><a class="menuitem">Slider</a>
                     <ul class="submenu">
-                        <li><a href="addslider.php">Add Slider</a> </li>
+                        <li><a href="slideradd.php">Add Slider</a> </li>
                         <li><a href="sliderlist.php">Slider List</a> </li>
                     </ul>
                 </li>

@@ -20,7 +20,6 @@ if(isset($_GET['deleid'])){
 	$price = $_GET['price'];
 	$del_processed = $ct->delete_completed_orer($id,$time,$price);
 }
-
 ?>
 
 

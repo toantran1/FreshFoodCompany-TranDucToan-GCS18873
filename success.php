@@ -7,7 +7,7 @@ if(isset($_GET['orderid']) && $_GET['orderid'] == 'order'){                     
     $customerid= Session::get('customer_id');
 	$insertOrder = $ct->insertOrder($customerid);
 	$delCart = $ct->del_all_data_cart();
-	header('Location:success.php');
+	header('Location:success.html');
 }
  ?>
 <style type="text/css">
@@ -38,11 +38,15 @@ p.Bill{
            while($result= $get_total_price->fetch_assoc()){
                $price = $result['price'];
                $total += $price;
-
+            }
+        }
+      ?>
          
-       ?>
+       
        <div class="total">
-           
+          <?php
+          if(isset($total)){
+          ?> 
        <h2 class="order_success">Order Successfully, We will contact for you soon. Thanks you and see you again !!!</h2>
        <p class="note_order">Total price you bought: 
        <?php 
@@ -50,14 +54,12 @@ p.Bill{
        $totalPrice = $total + $vat;
        echo $fm->format_currency($totalPrice).' VND';  ?>  </p>
        <?php echo '<center><img src="images/success_icon.png" alt="" width ="100px"></center>'; ?>
-       <p class="Bill">Please click Bill to see your order again <a href="orderdetails.php">Your Bill</a></p>
-    </div>
-    <?php
-      }
-    }else{
-        echo '<center><img src="images/empty_bag_order.png" alt="" width ="500px"></center>';
-    ?>
-    		<div class="shopping">
+       <p class="Bill">Please click Bill to see your order again <a style="color:green;" href="orderdetails.html">Your Bill</a></p>
+       <?php
+          }else{
+              echo'<center><img src="images/empty_bag_order.png" alt="" width ="400px"></center>';
+        ?>
+        	<div class="shopping">
                         <style>
                             .con_shopping img{
                                 outline:none;
@@ -66,14 +68,16 @@ p.Bill{
                             }
                         </style>
 						<div class="con_shopping">
-							<p><a href="index.php"> <img src="images/shop.png" alt="" /></a><p>
+							<p><a href="index.html"> <img src="images/shop.png" alt="" /></a><p>
 						</div>
 					
 					</div>
-                    <?php
-    }
-                    ?>
- 		</div>
+        <?php
+          }
+       ?>
+    </div>
+        </div>
+    
  	</div>
     
 </div>

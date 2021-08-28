@@ -81,7 +81,7 @@ Session::checkSession();
                 <li class="ic-form-style"><a href="useraccount.php"><span>User Account</span></a></li>
 				<!-- <li class="ic-form-style"><a href="changepassword.php"><span>Change Password</span></a></li> -->
 				<li class="ic-grid-tables"><a href="inbox.php"><span>Inbox</span></a></li>
-                <li class="ic-charts"><a href="../index.php"><span>Visit Website</span></a></li>
+                <li class="ic-charts"><a href="../index.html"><span>Visit Website</span></a></li>
             </ul>
         </div>
         <div class="clear">

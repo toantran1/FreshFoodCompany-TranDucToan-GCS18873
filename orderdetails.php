@@ -6,7 +6,7 @@ include_once 'inc/header.php';
 
 $login_check = Session:: get('customer_login');
 if($login_check == false){
-  header('Location:login.php');
+  header('Location:login.html');
 }
 
 ?>
@@ -86,12 +86,17 @@ if(isset($_GET['receiveid'])){
                                 <?php
                                 }elseif($result['status']== 1){
                                 ?>
-                                 <td><a href="?receiveid=<?php echo $result['id'] ?>&price=<?php echo $result['price']?>&time=<?php echo $result['dateOrder']?>">Confirm</a></td>
+                                 <td><a href="orderdetails.html?receiveid=<?php echo $result['id'] ?>&price=<?php echo $result['price']?>&time=<?php echo $result['dateOrder']?>">Confirm</a></td>
                                <?php
                                 }elseif($result['status']== 2){
                                ?>
                                 <td><?php echo 'Received' ?></td>
                                 <?php
+                                    }else{
+                                        ?>
+                                        <td><?php echo 'Received' ?></td>
+                                        <?php
+                                        
                                     }
                                 ?>
 
@@ -121,7 +126,7 @@ if(isset($_GET['receiveid'])){
                             }
                         </style>
 						<div class="con_shopping">
-							<p><a href="index.php"> <img src="images/shop.png" alt="" /></a><p>
+							<p><a href="index.html"> <img src="images/shop.png" alt="" /></a><p>
 						</div>
 					
 					</div>

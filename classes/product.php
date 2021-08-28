@@ -26,7 +26,7 @@ class product{
         $price = mysqli_real_escape_string($this->db->link, $data['price']);
         $type = mysqli_real_escape_string($this->db->link, $data['type']);
 
-        //Kiem tra hinh anh va lay hinh anh cho vao folder upload
+         //Check image and take images for folder uploads
 
         $permited = array('jpg', 'jpeg', 'png', 'gif');
         $file_name = $_FILES['image']['name'];
@@ -54,6 +54,92 @@ class product{
                 return $alert;
             }           
         }
+    }
+
+    public function insert_slider($data,$files){
+        $sliderName = mysqli_real_escape_string($this->db->link, $data['sliderName']);
+        $type = mysqli_real_escape_string($this->db->link, $data['type']);
+        $link_slider = mysqli_real_escape_string($this->db->link, $data['link_slider']);
+      
+
+        //Check image and take images for folder uploads
+
+        $permited = array('jpg', 'jpeg', 'png', 'gif');
+        $file_name = $_FILES['image']['name'];
+        $file_size = $_FILES['image']['size'];
+        $file_temp = $_FILES['image']['tmp_name'];
+
+        $div = explode('.', $file_name);
+        $file_ext = strtolower(end($div));
+        $unique_image = substr(md5(time()),0,10).'.'.$file_ext;
+        $uploaded_image = "uploads/".$unique_image; 
+
+        if($sliderName =="" || $type =="" || $link_slider == "" ){
+            $alert = "<span class='error'>Fields can't be empty. Please try again!!!</span>";
+            return $alert;
+        }else{
+            if(!empty($file_name)){
+                //If user chose image
+               if($file_size > 5120000){
+                    $alert = "<span class ='error'>Image size should be less than 500MB !!!!</span>";
+                    return $alert;
+               }elseif(in_array($file_ext, $permited)===false){
+            
+                     $alert = "<span class='error'>You can upload only:-".implode(', ',$permited)."</span>";
+                     return $alert;
+                }
+            move_uploaded_file($file_temp,$uploaded_image);
+            $query = "INSERT INTO tbl_slider(sliderName,slider_image,type,link_slider) VALUES('$sliderName','$unique_image','$type','$link_slider')";
+            $result = $this->db->insert($query);
+            if($result == true){
+                $alert = "<span class ='success'>ADD SUCCESSFULLY !!!</span>";
+                return $alert;
+            }else{
+                $alert = "<span class ='error'>ADD Failed !!!</span>";
+                return $alert;
+            }         
+            }
+                      
+        }
+
+    }
+
+    public function show_slider(){
+        $query ="SELECT * FROM tbl_slider WHERE type = '1' order by id desc";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function show_slider_admin(){
+        $query ="SELECT * FROM tbl_slider order by id desc";
+        $result = $this->db->select($query);
+        return $result;
+    }
+
+    public function delete_slider($del_id){
+        $query =" DELETE FROM tbl_slider WHERE id = '$del_id'  ";
+        $result = $this->db->delete($query);
+        return $result;
+    }
+
+    public function show_hide_slider($slider_id){
+        $slider_id = mysqli_real_escape_string($this->db->link, $slider_id);
+        $code_type ="SELECT type FROM tbl_slider WHERE id = '$slider_id'";
+        $res_type =  $this->db->select($code_type);
+        $result_type= $res_type->fetch_object()->{'type'};
+
+        if ($result_type == 0) {
+            // Show slider
+            $query = "UPDATE tbl_slider SET type = '1'
+                      WHERE id = '$slider_id' ";
+                      
+            } else{
+            //Hide hide  
+            $query = "UPDATE tbl_slider SET type = '0'
+                      WHERE id = '$slider_id' ";
+                    
+            }
+            return $this->db->update($query);
     }
 
     public function show_product(){
@@ -145,23 +231,26 @@ class product{
         $code_status ="SELECT status FROM tbl_product WHERE productId = $id";
         $res_status =  $this->db->select($code_status);
         $result_status= $res_status->fetch_object()->{'status'};
-
+       
         // $query = "UPDATE tbl_product SET status='1' WHERE productId ='$id' ";
         // $this->del_favor_product($id,NULL);
         // $result = $this->db->update($query);
-
+       
         if ($result_status == 0) {
             // Show product
             $query = "UPDATE tbl_product SET status = '1'
-                      WHERE productId = '$id' ";
+                      WHERE productId = '$id' ";                     
                         //Delete favorite product
                         $this->del_favor_product($id,NULL);
+                        $this->delete_product_cart_hide($id,NULL);
+                      
             } else{
             //Hide product  
             $query = "UPDATE tbl_product SET status = '0'
                       WHERE productId = '$id' ";
                     
             }
+            
             return $this->db->update($query);
 
 
@@ -174,7 +263,18 @@ class product{
         // }
     }
 
-  
+    public function delete_product_cart_hide($productid,$customerid = NULL ){
+     
+        if($customerid == NULL){
+            $query = "DELETE FROM tbl_cart WHERE productId ='$productid'";
+           }else{
+            $query = "DELETE FROM tbl_cart WHERE cartId ='$productid' AND  customerId='$customerid'";
+           }
+            
+          
+           return  $this->db->delete($query);
+
+    }
     public function del_favor_product($productid,$customerid = NULL){
        if($customerid == NULL){
         $query = "DELETE FROM tbl_favoriteproduct WHERE productId ='$productid'";
@@ -432,17 +532,15 @@ class product{
 
     public function search_product($search){
         $query ="SELECT * FROM tbl_product WHERE LOWER(productName) like '%$search%' OR LOWER(product_desc) like '%$search%' OR price like '%$search%'";
-        $min_length = 1;
+        $min_length = 3;
         $result_search = $this->db->select($query);
         if(strlen($search) >= $min_length){
             return $result_search;
         }
-        
-       
-       
 
     }
-
+ 
+    
  
   
     

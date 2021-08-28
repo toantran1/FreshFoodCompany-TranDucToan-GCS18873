@@ -20,11 +20,11 @@ include 'inc/slider.php';
 			  
 			  ?>
 				<div class="grid_1_of_4 images_1_of_4">
-				<a href="details.php?proid=<?php echo $result_get_vegatable['productId'] ?>"> <img src="admin/uploads/<?php echo $result_get_vegetable['image'] ?>" alt="" width="112px" height ="112px" /></a>
+				<a href="detail-products/<?php echo $result_get_vegetable['productId'] ?>.html"> <img src="admin/uploads/<?php echo $result_get_vegetable['image'] ?>" alt="" width="112px" height ="112px" /></a>
 				<p><?php echo $result_get_vegetable['productName'] ?></p>
 				<p><?php echo $result_get_vegetable['product_desc'] ?></p>
 				<p><span class="price"><?php echo $fm->format_currency($result_get_vegetable['price'])." VND" ?></span></p>
-				<div class="button"><span><a href="details.php?proid=<?php echo $result_get_vegetable['productId'] ?>">Details</a></span></div>
+				<div class="button"><span><a href="detail-products/<?php echo $result_get_vegetable['productId'] ?>.html">Details</a></span></div>
 				</div>
 				<?php
 				}
@@ -64,11 +64,11 @@ include 'inc/slider.php';
 			  
 			  ?>
 				<div class="grid_1_of_4 images_1_of_4">
-				<a href="details.php?proid=<?php echo $result_get_fruit['productId'] ?>"> <img src="admin/uploads/<?php echo $result_get_fruit['image'] ?>" alt="" /></a>
+				<a href="detail-products/<?php echo $result_get_fruit['productId'] ?>.html"> <img src="admin/uploads/<?php echo $result_get_fruit['image'] ?>" alt="" /></a>
 				<p><?php echo $result_get_fruit['productName'] ?></p>
 				<p><?php echo $result_get_fruit['product_desc'] ?></p>
 				<p><span class="price"><?php echo $fm->format_currency($result_get_fruit['price'])." VND" ?></span></p>
-				<div class="button"><span><a href="details.php?proid=<?php echo $result_get_fruit['productId'] ?>">Details</a></span></div>
+				<div class="button"><span><a href="detail-products/<?php echo $result_get_fruit['productId'] ?>.html">Details</a></span></div>
 				</div>
 				
 				<?php
@@ -107,11 +107,11 @@ include 'inc/slider.php';
 			  
 			  ?>
 				<div class="grid_1_of_4 images_1_of_4">
-				<a href="details.php?proid=<?php echo $result_get_meat['productId'] ?>"> <img src="admin/uploads/<?php echo $result_get_meat['image'] ?>" alt="" /></a>
+				<a href="detail-products/<?php echo $result_get_meat['productId'] ?>.html"> <img src="admin/uploads/<?php echo $result_get_meat['image'] ?>" alt="" /></a>
 				<p><?php echo $result_get_meat['productName'] ?></p>
 				<p><?php echo $result_get_meat['product_desc'] ?></p>
 				<p><span class="price"><?php echo $fm->format_currency($result_get_meat['price'])." VND" ?></span></p>
-				<div class="button"><span><a href="details.php?proid=<?php echo $result_get_meat['productId'] ?>">Details</a></span></div>
+				<div class="button"><span><a href="detail-products/<?php echo $result_get_meat['productId'] ?>.html">Details</a></span></div>
 				</div>
 				
 				<?php
@@ -150,11 +150,11 @@ include 'inc/slider.php';
 			  
 			  ?>
 				<div class="grid_1_of_4 images_1_of_4">
-				<a href="details.php?proid=<?php echo $re['productId'] ?>"> <img src="admin/uploads/<?php echo $result_get_chicken['image'] ?>" alt="" /></a>
+				<a href="detail-products/<?php echo $result_get_chicken['productId'] ?>.html"> <img src="admin/uploads/<?php echo $result_get_chicken['image'] ?>" alt="" /></a>
 				<p><?php echo $result_get_chicken['productName'] ?></p>
 				<p><?php echo $result_get_chicken['product_desc'] ?></p>
 				<p><span class="price"><?php echo $fm->format_currency($result_get_chicken['price'])." VND"?></span></p>
-				<div class="button"><span><a href="details.php?proid=<?php echo $result_get_chicken['productId'] ?>">Details</a></span></div>
+				<div class="button"><span><a href="detail-products/<?php echo $result_get_chicken['productId'] ?>.html">Details</a></span></div>
 				</div>
 				
 				<?php
@@ -194,11 +194,11 @@ include 'inc/slider.php';
 			  
 			  ?>
 				<div class="grid_1_of_4 images_1_of_4">
-				<a href="details.php?proid=<?php echo $re['productId'] ?>"> <img src="admin/uploads/<?php echo $result_get_fish['image'] ?>" alt="" /></a>
+				<a href="detail-products/<?php echo $result_get_fish['productId'] ?>.html"> <img src="admin/uploads/<?php echo $result_get_fish['image'] ?>" alt="" /></a>
 				<p><?php echo $result_get_fish['productName'] ?></p>
 				<p><?php echo $result_get_fish['product_desc'] ?></p>
 				<p><span class="price"><?php echo $fm->format_currency($result_get_fish['price'])." VND"?></span></p>
-				<div class="button"><span><a href="details.php?proid=<?php echo $result_get_fish['productId'] ?>">Details</a></span></div>
+				<div class="button"><span><a href="detail-products/<?php echo $result_get_fish['productId'] ?>.html">Details</a></span></div>
 				</div>
 				
 				<?php

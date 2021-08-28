@@ -9,16 +9,16 @@
 						<ul>
 						<li><a href="#">About Us</a></li>
 						<li><a href="#">Customer Service</a></li>
-						<li><a href="#"><span>Advanced Search</span></a></li>
-						<li><a href="#">Orders and Returns</a></li>
+						
+						
 						<li><a href="contact.php"><span>Contact Us</span></a></li>
 						</ul>
 					</div>
 				<div class="col_1_of_4 span_1_of_4">
 					<h4>Why buy from us</h4>
 						<ul>
-						<li><a href="about.html">About Us</a></li>
-						<li><a href="faq.html">Customer Service</a></li>
+						<li><a href="contact.php">About Us</a></li>
+						<li><a href="contact.php">Customer Service</a></li>
 						<li><a href="#">Privacy Policy</a></li>
 						<li><a href="contact.html"><span>Site Map</span></a></li>
 						<li><a href="preview.html"><span>Search Terms</span></a></li>
@@ -29,7 +29,7 @@
 						<ul>
 							<li><a href="profile.php">My profile</a></li>
 							<li><a href="cart.php">View Cart</a></li>
-							<li><a href="#">My Wishlist</a></li>
+							<li><a href="favoriteproduct.php">My Wishlist</a></li>
 							<li><a href="orderdetails.php">Track My Order</a></li>
 							<li><a href="contact.php">Help</a></li>
 						</ul>

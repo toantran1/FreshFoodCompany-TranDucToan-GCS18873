@@ -41,11 +41,11 @@ if(!isset($_GET['catid']) || $_GET['catid'] == NULL){                        // 
 			  while($result = $productbycat->fetch_assoc()){
 		  ?>
 				<div class="grid_1_of_4 images_1_of_4">
-					 <a href="details-3.php"><img src="admin/uploads/<?php echo $result['image']?>" width ="200px" alt="" /></a>
+					 <a href="detail-products/<?php echo $result['productId'] ?>.html"><img src="admin/uploads/<?php echo $result['image']?>" width ="200px" alt="" /></a>
 					 <h2><?php echo $result['productName'] ?></h2>
 					 <p><?php echo $fm->textShorten($result['product_desc'], 50); ?></p>
 					 <p><span class="price"><?php echo $fm->format_currency($result['price']).' VND' ?></span></p>
-				     <div class="button"><span><a href="details.php?proid=<?php echo $result['productId'] ?>" class="details">Details</a></span></div>
+				     <div class="button"><span><a href="detail-products/<?php echo $result['productId'] ?>.html" class="details">Details</a></span></div>
 				</div> 	
 				<?php
 			  }

@@ -32,6 +32,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['favorproduct'])){
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])){
 
 	 $comment= $cs->insert_comment();
+	 header("Refresh:0");
 
 }
 ?>
@@ -123,7 +124,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])){
 
 			<div class="product-desc">
 			<h2>Product Details</h2>
-			<p><?php echo $fm->textShorten($result_details['product_desc'],150)?></p>
+			<p><?php echo $fm->textShorten($result_details['product_desc'],800)?></p>
 	    </div>
 				
 	</div>
@@ -139,7 +140,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])){
 					if($getAll_category){
 						while($result_allcat = $getAll_category->fetch_assoc()){
 					?>
-				      <li><a href="productbycat.php?catid=<?php echo $result_allcat['catId'] ?>"><?php echo $result_allcat['catName'] ?></a></li>
+				      <li><a href="category-product/id-<?php echo $result_allcat['catId'] ?>.html"><?php echo $result_allcat['catName'] ?></a></li>
 				    <?php
 						}
 					}
@@ -190,7 +191,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])){
 									<?php
 								}
 	 								 ?>
-						    	<!-- <input type= "text" placeholder="Enter your name..." class="buyfield" name ="usercomment"/> -->
+						    	
 						    </div>
 							<div class="price">
 						    	<p>Comment Detail</p></div>

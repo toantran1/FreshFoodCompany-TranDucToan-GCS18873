@@ -29,7 +29,7 @@ $product = new product();
 <?php
    $login_check = Session:: get('customer_login');
    if($login_check){
-	   header('Location: order.php');
+	   header('Location: order.html');
    }
 ?>
 <?php
@@ -51,6 +51,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])){
 <!DOCTYPE html>
 <html>
 <head>
+<base href="http://localhost:81/website_mvc/"/>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -67,7 +68,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])){
 				echo $insertCustomers;
 			}
 			?>
-		<form action="" method="POST" class="login-email">
+		<form action="register.html" method="POST" class="login-email">
             <p class="login-text" style="font-size: 2rem; font-weight: 800;">Register</p>
 			<div class="input-group">
             <input type="text" name="name" placeholder="Enter name..." required>
@@ -108,7 +109,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])){
 			<div class="input-group">
 				<button name="submit" class="btn">Register</button>
 			</div>
-			<p class="login-register-text">Have an account? <a href="login.php">Login Here</a>.</p>
+			<p class="login-register-text">Have an account? <a href="login.html">Login Here</a>.</p>
 		</form>
 	</div>
 </body>

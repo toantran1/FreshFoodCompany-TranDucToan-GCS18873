@@ -26,7 +26,7 @@ p.Bill{
        
     
        <?php echo '<center><img src="images/thank_you.png" alt="" width ="600px"></center>'; ?>
-       <center><p><button type="submit" class="btn btn-success" ><a href="index.php">Back to home</a></button><center>
+       <center><p><button type="submit" class="btn btn-success" ><a href="index.html">Back to home</a></button><center>
        
    	
  		</div>
