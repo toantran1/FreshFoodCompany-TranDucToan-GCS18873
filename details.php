@@ -157,7 +157,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])){
 <div class="content">
 	<div class="section group">
 				<div class="col span_2_of_3">
-				<h2>Comment</h2>
+				<h2 style="font-weight:bold;font-size:25px;">Comment</h2>
 				<?php
 				if(isset($comment)){
 					echo $comment;
@@ -177,7 +177,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])){
 								}
 								?>
 								<div class="price">
-						    	<p>Your Name</p></div>
+						    	<p style="font-weight:bold;font-size:16px;">Your Name</p></div>
 								  <?php
 								 	 $login_check = Session:: get('customer_login');
 									if($login_check == false){
@@ -194,7 +194,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])){
 						    	
 						    </div>
 							<div class="price">
-						    	<p>Comment Detail</p></div>
+						    	<p style="font-weight:bold;font-size:16px;">Comment Detail</p></div>
 						    	<span><textarea  style="resize:none" class="form-control" placeholder="Comment..." name="comment"></textarea></span>
 						    </div>
 						   <div>
@@ -203,31 +203,74 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])){
 					    </form>
 			</div>
 			</div>
-
+			
 			<div class="section group">
 				<div class="col span_2_of_3">
 					<div class="pre-comment">
-	
-				<h2>All Comments</h2>			
-				<table class="tblone">
-			
+		<style>
+		.panel {
+			margin-bottom: 20px;
+			background-color: #fff;
+			border: 1px solid transparent;
+			border-radius: 4px;
+			-webkit-box-shadow: 0 1px 1px rgb(0 0 0 / 5%);
+			box-shadow: 0 1px 1px rgb(0 0 0 / 5%);
+		}
+		.panel-default {
+			border-color: #ddd;
+		}
+		.panel-default>.panel-heading {
+			color: #333;
+			background-color: #f5f5f5;
+			border-color: #ddd;
+		}
+		.panel-heading {
+			padding: 10px 15px;
+			border-bottom: 1px solid transparent;
+			border-top-left-radius: 3px;
+			border-top-right-radius: 3px;
+		}
+		.panel-body {
+			padding: 15px;
+		}
+		.panel-footer {
+			padding: 10px 15px;
+			background-color: #f5f5f5;
+			border-top: 1px solid #ddd;
+			border-bottom-right-radius: 3px;
+			border-bottom-left-radius: 3px;
+		}
+		</style>
+				<h2>All Comments</h2>
+				
 				<?php	
 						$cmlist= $cs->show_comment($id);
 						if($cmlist){
 						 	while($result_comment= $cmlist->fetch_assoc()){
                 ?> 
-
-				<tr class="odd gradeX">
-					<td><h3 style="color:green"><?php echo $result_comment['user_comment'].":" ?></h3></td>
-					<td><?php echo $result_comment['comment_detail'] ?></td>
-				</tr>
-
+				<div class="panel panel-default">
+			
+					<div class="panel-heading">
+						<p>By
+						<b style="color:green; font-weight:bold;"><?php echo $result_comment['user_comment'] ?></b>
+						on 
+						<i style="font-style: italic;font-size:15px;"><?php echo $result_comment['date_cmt'] ?></i>		
+						</p>
+					</div>
+					<div class="panel-body">
+						<p><?php echo $result_comment['comment_detail'] ?></p>		
+					</div>
+					<!-- <div class="panel-footer"></div> -->
+				</div>
 				<?php
 					}
-				}
+				}else{
 				?>
-			</table>
-			
+				<?php
+					echo '<center><img src="images/no_comment.png" alt="" width ="450px"></center>';
+				   }
+				?>	
+	
 					</div>
 				  </div>
   				</div>

@@ -98,16 +98,19 @@ $product = new product();
 		   <div class="login">
 		   <?php
 		   $login_check = Session:: get('customer_login');
+	
+		 
 		   if($login_check == false){
 			   echo '<a href="login.html">Login</a></div>';
 		   } else{
-			
-
-			    $now = time(); // Checking the time now when home page starts.
+				// Checking the time now when home page starts.
+			    $now = time(); 
 				
+
 				if ($now >  $_SESSION['expire']) {					
 					session::destroy();
 				}
+			
 				echo '<a href="?customerid='.Session::get("customer_id").'">Logout</a></div>';	
 				// }else{
 			       

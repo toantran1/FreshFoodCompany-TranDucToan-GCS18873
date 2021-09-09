@@ -4,13 +4,14 @@ include 'inc/header.php';
 ?>
 <?php
 $customerid = Session::get('customer_id');
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_contact'])){
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_contact']) && isset($_POST['g-recaptcha-response']) ){
 
 	 $cus_contact= $cs->insert_cus_contact($customerid);
 	 echo "<meta http-equiv='refresh' content='0'>";
 
 }
 ?>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
  <div class="main">
     <div class="content">
     	<div class="support">
@@ -127,6 +128,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_contact'])){
 						   <!-- <div>
 						   		<span><input type="submit" value="SUBMIT"></span>
 						  </div> -->
+						  <div>
+						  <div class="g-recaptcha" data-sitekey="6LekTlIcAAAAALv2WV1l8QnIJOWtM7mP0i0jUtvS"></div>
+						  </div>
+						  
 
 						  <div>
 						   		<span><input type="submit" name ="submit_contact" class="buysubmit" value="Submit"></span></br>

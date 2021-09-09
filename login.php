@@ -175,8 +175,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])){
 				<input type="email" name="email"  placeholder="Enter your email..." required>
 			</div>
 			<div class="input-group">
-				<input type="password" name="password" placeholder="Enter your password..." required>
+				<input type="password" name="password" placeholder="Enter your password..." id="Show" required>
 			</div>
+			<div>
+				<input type="checkbox" name="" onclick="myFunction()" />
+				<label>Show Password.</label>
+			</div></br>
 			<div class="input-group">
 				<button name="login" class="btn">Login</button>
 			</div>
@@ -187,7 +191,18 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])){
 				if(isset($login_Customers)){
 					echo $login_Customers;
 				}
-			?>
+		?>	
+
 	</div>
+	<script type= "text/javascript">
+		function myFunction(){
+			var show = document.getElementById('Show');
+			if(show.type == 'password'){
+				show.type = 'text';
+			}else{
+				show.type = 'password';			
+			}
+		}
+	</script>
 </body>
 </html>

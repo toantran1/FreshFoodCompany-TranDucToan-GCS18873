@@ -29,6 +29,12 @@ $product = new product();
   header("Cache-Control: max-age=2592000");
   
 ?>
+<?php 
+$email = $_SESSION['email'];
+if($email == false){
+  header('Location: login.html');
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,38 +46,38 @@ $product = new product();
 
 	<link rel="stylesheet" type="text/css" href="css/login.css">
 
-	<title>Reset Password</title>
+	<title>New Password</title>
 </head>
 <body>
-	
 	<div class="container">
-		<?php
-		
-		if(isset($_POST['check-email'])){
-			$check_email= $cs->check_email($_POST);
+    <?php
+		$cs = new customer();
+		if(isset($_POST['change-password'])){
+			$change_password= $cs->change_password($_POST);
 		}
 		?>
 	
-		<form action="forgotpassword.php" method="POST" class="login-email" autocomplete="">
-			<p class="login-text" style="font-size: 1.5rem; font-weight: 600;">Enter your e-mail to reset password</p>
-			<?php
-                       if(isset($check_email)){
-						   echo $check_email;
-					   }
-                    ?>
+		<form action="new-password.html" method="POST" class="login-email" autocomplete="off">
+			<p class="login-text" style="font-size: 1.5rem; font-weight: 600;">Enter your new password</p>
 
-					
-                 
-
+            <?php 
+                if(isset($change_password)){
+                    echo $change_password;
+                }
+            ?>
+			
 			<div class="input-group">
-				<input type="email" name="email"  placeholder="Enter your email..." required >
+				<input type="password" name="new_password"  placeholder="Enter your password..." required>
+			</div>
+
+            <div class="input-group">
+				<input type="password" name="confirm_password"  placeholder="Confirm your password..." required>
 			</div>
 
 			<div class="input-group">
-				<button name="check-email" class="btn">Continue</button>
+				<button name="change-password" class="btn">Continue</button>
 			</div>
-
-            <center><p class="login-register-text"><a href="login.html">Back to login.</a></p></center>
+            
 	
 		</form>
 	

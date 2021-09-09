@@ -1511,7 +1511,7 @@ table.tblone img {
 	background:#22c71f url(../images/large-button-overlay.png);
     font-family:Arial, Helvetica, sans-serif;
     position:absolute;
-    right:0;
+    /* right:0; */
     border: 1px solid #ccc;
 	color: #fff !important;
 	font-size:1em;

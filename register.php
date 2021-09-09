@@ -35,7 +35,7 @@ $product = new product();
 <?php
 // $cs = new customer();
 
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])){
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit']) && isset($_POST['g-recaptcha-response'])){
   
     $insertCustomers = $cs->insert_customers($_POST) ;
 }
@@ -58,6 +58,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])){
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<link rel="stylesheet" type="text/css" href="css/login.css">
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 	<title>Register</title>
 </head>
@@ -104,8 +105,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])){
 			</div>
 		
             <div class="input-group">
-            <input type="text" name="password" placeholder="Enter your password..." required>
+            <input type="password" name="password" placeholder="Enter your password..." required>
 			</div>
+			<div class="input-group">
+            <input type="password" name="cpassword" placeholder="Confirm your password..." required>
+			</div>
+			<div class="g-recaptcha" data-sitekey="6LekTlIcAAAAALv2WV1l8QnIJOWtM7mP0i0jUtvS">
+
+			</div></br>
 			<div class="input-group">
 				<button name="submit" class="btn">Register</button>
 			</div>

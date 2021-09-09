@@ -15,7 +15,12 @@ RewriteRule "address.html" "address.php"
 RewriteRule "success.html" "success.php"
 RewriteRule "payment.html" "payment.php"
 RewriteRule "offlinepayment" "offlinepayment.php"
+RewriteRule "password-change.html" "password-change.php"
+RewriteRule "reset-code.html" "reset-code.php"
+RewriteRule "new-password.html" "new-password.php"
+RewriteRule "user-otp.html" "user-otp.php"
 RewriteRule "search.html" "search.php"
+
 
 RewriteRule "^detail-products/([0-9]+).html$" "details.php?proid=$1"
 RewriteRule "^category-product/id-([0-9]+).html$" "productbycat.php?catid=$1"

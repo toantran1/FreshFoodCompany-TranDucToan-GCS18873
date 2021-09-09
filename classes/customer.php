@@ -25,33 +25,69 @@ class customer{
         $country = mysqli_real_escape_string($this->db->link, $data['country']);
         $phone = mysqli_real_escape_string($this->db->link, $data['phone']);
         $password = mysqli_real_escape_string($this->db->link, md5($data['password']));
-        
+        $cpassword = mysqli_real_escape_string($this->db->link, md5($data['cpassword']));
+
+        $secret="6LekTlIcAAAAAK9klG4XghAc6UOy6f3x3O93xpwl";
+        $captcha = $_POST['g-recaptcha-response'];
+        $url= file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$captcha");
+        $responseData = json_decode($url);
+        if(!$responseData->success){
+            $alert = "<span class ='error'>You need to validate Captcha before submit form !!!</span>";
+            return $alert;
+        }else{
+        if($password != $cpassword){
+            $alert = "<span class ='error'>Confirm password not matched !!!</span>";
+                return $alert;
+        }
 
         if($name =="" || $city =="" || $zipcode =="" || $email =="" || $address =="" || $country =="" || $phone =="" || $password =="" || $password ==""){
             $alert = "<span class='error'>Fields can't be empty. Please try again!!!</span>";
             return $alert;
         }else{
+      
+
             $check_email = "SELECT * FROM tbl_customer WHERE email='$email' LIMIT 1";
             $result_check = $this->db->select($check_email);
             if($result_check){
                 $alert = "<span class='error'>Email Already Existed. Please try another email. Thanks !!!</span>";
                 return $alert;
             }else{
-                $query = "INSERT INTO tbl_customer(name,city,zipcode,email,address,country,phone,password) 
-                           VALUES('$name','$city','$zipcode','$email','$address','$country','$phone','$password')";
+
+
+                //code verified
+                $code = rand(999999, 111111);
+                $status = "notverified";
+
+                $query = "INSERT INTO tbl_customer(name,city,zipcode,email,address,country,phone,password, code, status) 
+                           VALUES('$name','$city','$zipcode','$email','$address','$country','$phone','$password', '$code','$status')";
 
                 $result = $this->db->insert($query);
                 if($result == true){
-                    $alert = "<span class ='success'>Your account created successfull !!!</span>";
-                    return $alert;
+                    $subject = "Email Verification Code";
+                    $message = "Your verification code is $code";
+                    $sender = "From: toan.job@gmail.com";
+                    if(mail($email, $subject, $message, $sender)){
+                        $info = "We've sent a verification code to your email - $email";
+                        $_SESSION['info'] = $info;
+                        $_SESSION['email'] = $email;
+                        $_SESSION['password'] = $password;
+                        header('location: user-otp.html');
+                        exit();
+                    // $alert = "<span class ='success'>Your account created successfull !!!</span>";
+                    // return $alert;
                 }else{
-                    $alert = "<span class ='error'>Your account created failded !!!</span>";
-                    return $alert;
+                    $alert = "<span class ='error'>Failed while sending Code!!!</span>";
+                     return $alert;
+                    // $alert = "<span class ='error'>Your account created failded !!!</span>";
+                    // return $alert;
                 }           
+            }else{
+                $alert = "<span class ='error'>Your account created failded !!!</span>";
+                return $alert;
             }
-
         }
-
+     }
+    }
     }
 
     public function login_customers($data){
@@ -63,23 +99,42 @@ class customer{
             $alert = "<span class='error'>Email or password can't be empty. Please try again!!!</span>";
             return $alert;
         }else{
-            $check_login = "SELECT * FROM tbl_customer WHERE email='$email' AND password='$password' AND block= '0' ";
+            $check_block= "SELECT * FROM tbl_customer WHERE email='$email' AND password='$password' AND block= '1' ";
+            $result_check_block = $this->db->select($check_block);
+            if($result_check_block){           
+                $alert = "<span class='error'>This Account Was Blocked !!!</span>";
+                return $alert;
+            }
+
+
+            $check_login = "SELECT * FROM tbl_customer WHERE email='$email' AND password='$password' AND block= '0'";
             $result_check = $this->db->select($check_login);
+            
 
             if($result_check){
                 $value = $result_check->fetch_assoc();
-                Session::set('customer_login',true);
-                Session::set('customer_id',$value['id']);
-                Session::set('customer_name',$value['name']);
-             
-                $_SESSION['start']= time();
-	            $_SESSION['expire'] = $_SESSION['start'] + (60 * 60);
-                header('location:index.html');
+              
 
-            }else if($result_check == false){
-                $alert = "<span class='error'>This Account Was Blocked !!!</span>";
-                return $alert;
-
+                if($value['status']=='verified'){
+                    Session::set('customer_login',true);
+                    Session::set('customer_id',$value['id']);
+                    Session::set('customer_name',$value['name']);
+                    
+                
+                    
+                    $_SESSION['start']= time();
+                    $_SESSION['expire'] = $_SESSION['start'] + (60 * 60);
+                    header('location:index.html');
+                }elseif($value['status']=='notverified'){
+                    $info = "It's look like you haven't still verify your email - $email";
+                    $_SESSION['info'] = $info;  
+                   
+                    
+                    $_SESSION['email'] = $email;                
+                    header('location: user-otp.html');
+                    
+                   
+                }
             }else{
                 $alert = "<span class='error'>Email or Password doesn't exist. Please try again !!!</span>";
                 return $alert;
@@ -164,6 +219,129 @@ class customer{
         // }
     }
 
+    //FORGOT PASSWORD HERE
+    //if user click continue button in forgotpassword form
+    public function check_email(){
+        $email = $_POST['email'];
+        $checkEmail ="SELECT * FROM tbl_customer WHERE email='$email'";
+        $res_checkEmail = $this->db->select($checkEmail);
+
+        if($res_checkEmail){
+            $code = rand(999999, 111111);
+            $insert_code = "UPDATE tbl_customer SET code = $code WHERE email='$email'";
+            $res_insert = $this->db->update($insert_code);
+
+            if($res_insert){
+                $subject = "Password Reset Code";
+                $message = "Your password reset code is $code";
+                $sender = "From: toan.job@gmail.com";
+                
+                if(mail($email,$subject,$message,$sender)){
+                    
+                    $info = "We've sent a password reset otp to your email- $email";
+                    $_SESSION['info'] = $info;
+                    $_SESSION['email'] = $email;
+                    header('location: reset-code.html');
+                    exit();
+                }else{
+                    $alert = "<span class ='error'>Fail while sending code !!!</span>";
+                    return $alert;
+                }
+            }else{
+                $alert = "<span class ='error'>Something went wrong !!!</span>";
+                return $alert;
+            }
+        }else{
+            $alert = "<span class ='error'>This email address does not exist !!!</span>";
+                    return $alert;
+        }
+    }
+
+       //if user click Submit in reset-code form
+       public function check_reset_otp_code($data){
+        $_SESSION['info'] = "";
+        $otp_code = $_POST['otp'];
+
+        $checkCode = "SELECT * FROM tbl_customer WHERE code = '$otp_code'";
+        $code_res = $this->db->select($checkCode);
+        if($code_res){
+            $fetch_data = $code_res->fetch_assoc();
+            $email = $fetch_data['email'];
+            $_SESSION['email'] = $email;
+          
+            $info = "Please create a new password that you don't use on any other site.";
+            $_SESSION['info'] = $info;
+            header('location: new-password.html');
+            exit();
+        }else{
+            $alert = "<span class ='error'>You've entered incorrect code!</span>";
+            return $alert;
+        }
+      }
+
+    //if user click change-password button
+    public function change_password(){
+        $_SESSION['info'] = "";
+        $password = md5($_POST['new_password']);
+        $cpassword = md5($_POST['confirm_password']);
+
+        if($password != $cpassword){
+            $alert = "<span class ='error'>Confirm password not matched !!!</span>";
+                return $alert;
+        }else{
+           
+           
+            $email = $_SESSION['email'];
+           
+            // $encpass= password_hash($password, PASSWORD_BCRYPT);
+            $update_pass=  "UPDATE tbl_customer SET code = '0', password = '$password' WHERE email = '$email'";
+
+            $res_update_pass = $this->db->update($update_pass);
+          
+            if($res_update_pass){
+                $info = "Your password changed. Now you can login with your new password.";
+                $_SESSION['info'] = $info;
+                header('Location: password-change.html');
+            }else{
+                $alert = "<span class ='error'>Failed to change your password !!!</span>";
+                return $alert;
+            }
+        }    
+    }
+
+      //if user click verification code submit button
+      public function check_code($data){
+        $_SESSION['info'] = "";        
+        $otp_code = mysqli_real_escape_string($this->db->link, $data['otp']);
+      
+        $checkCode = "SELECT * FROM tbl_customer WHERE code = '$otp_code'";
+
+        $code_res = $this->db->select($checkCode);
+
+        if($code_res > 0){
+            $fetch_data = $code_res->fetch_assoc();
+            $fetch_code = $fetch_data['code'];
+            $email = $fetch_data['email'];
+            $code = 0;
+          
+            $update_otp = "UPDATE tbl_customer SET code = $code, status = 'verified' WHERE code = $fetch_code";
+            $update_res =$this->db->update($update_otp);
+
+            if($update_res){              
+                $_SESSION['email'] = $email;
+                header('location: login.html');
+                exit();
+            }else{
+                $alert = "<span class ='error'>Failed while updating code!</span>";
+                return $alert;
+            }
+        }else{
+            $alert = "<span class ='error'>You've entered incorrect code!</span>";
+                return $alert;
+        }
+      }
+
+   
 
     public function insert_comment(){
         $productId = $_POST['product_id_comment'];
@@ -197,6 +375,15 @@ class customer{
         $userPhone = $_POST['userphone'];
         $subject = $_POST['subject'];
         
+
+        $secret_key="6LekTlIcAAAAAK9klG4XghAc6UOy6f3x3O93xpwl";
+        $captcha_contact = $_POST['g-recaptcha-response'];
+        $rsp= file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secret_key&response=$captcha_contact");
+        $responseData_contact = json_decode($rsp);
+        if(!$responseData_contact->success){
+            $alert = "<span class ='error'>You need to validate Captcha before submit form !!!</span>";
+            return $alert;
+        }else{
         if($userContact =='' || $userEmail =='' || $userPhone =='' || $subject == ''){
             $alert= "<span class='error'>Fields can't be empty </span>";
             return $alert;
@@ -213,7 +400,7 @@ class customer{
                     $alert = "<span class ='error'>Send failded !!!</span>";
                     return $alert;
                 }           
-
+            }
         }   
     }
 
@@ -283,7 +470,9 @@ class customer{
     public function show_comment($id){
         $query = "SELECT * FROM tbl_comment WHERE productId= '$id'  order by comment_id desc LIMIT 8";
 			$result = $this->db->select($query);
-			return $result;
+         
+                return $result;
+
     }
 
     public function show_cus_comment($customerid){

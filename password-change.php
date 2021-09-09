@@ -29,6 +29,17 @@ $product = new product();
   header("Cache-Control: max-age=2592000");
   
 ?>
+<?php 
+$email = Session::get('email');
+if($email == false){
+  header('Location: login.html');
+}
+?>
+<?php
+if($_SESSION['info'] == false){
+  header('Location: login.html');  
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,38 +51,30 @@ $product = new product();
 
 	<link rel="stylesheet" type="text/css" href="css/login.css">
 
-	<title>Reset Password</title>
+	<title>New Password</title>
 </head>
 <body>
-	
 	<div class="container">
-		<?php
-		
-		if(isset($_POST['check-email'])){
-			$check_email= $cs->check_email($_POST);
-		}
-		?>
+  <center><img src="images/success_icon.png" alt="" width ="150px"></center>
+        
 	
-		<form action="forgotpassword.php" method="POST" class="login-email" autocomplete="">
-			<p class="login-text" style="font-size: 1.5rem; font-weight: 600;">Enter your e-mail to reset password</p>
-			<?php
-                       if(isset($check_email)){
-						   echo $check_email;
-					   }
-                    ?>
+		<form action="password-change.html" method="POST">
+    <?php 
+            if(isset($_SESSION['info'])){
+            
+             ?>
+             <center style="font-weight:600;">
+               <?php
+               echo $_SESSION['info'];
+                ?>
 
-					
-                 
-
-			<div class="input-group">
-				<input type="email" name="email"  placeholder="Enter your email..." required >
-			</div>
-
-			<div class="input-group">
-				<button name="check-email" class="btn">Continue</button>
-			</div>
-
-            <center><p class="login-register-text"><a href="login.html">Back to login.</a></p></center>
+             </center>
+            <?php
+            }
+            ?>
+        
+	 <center><p class="login-register-text"><a href="login.html">Back to login.</a></p></center>
+            
 	
 		</form>
 	
