@@ -7,7 +7,7 @@ $customerid = Session::get('customer_id');
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_contact']) && isset($_POST['g-recaptcha-response']) ){
 
 	 $cus_contact= $cs->insert_cus_contact($customerid);
-	 echo "<meta http-equiv='refresh' content='0'>";
+	//  echo "<meta http-equiv='refresh' content='0'>";
 
 }
 ?>

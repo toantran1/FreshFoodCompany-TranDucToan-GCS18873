@@ -11,20 +11,12 @@ if($login_check == false){
 
 ?>
 <?php
-if(!isset($_GET['bill_Id']) || $_GET['bill_Id'] == NULL){                       
-    echo "<script> window.location = '404.html'</script>";
-}else{
-    $bill_id = $_GET['bill_Id'];
-	}
-
-?>
-<?php
 $ct = new cart();
 if(isset($_GET['receiveid'])){                        
   $id = $_GET['receiveid'];
   $time = $_GET['time'];
-  $price = $_GET['price'];
-  $received = $ct->received($id,$time,$price);
+
+  $received = $ct->received($id,$time);
 }
 
 // if(isset($_GET['deleteOrderid'])){                      
@@ -39,38 +31,40 @@ if(isset($_GET['receiveid'])){
     <div class="content">
     	<div class="cartoption">		
 			<div class="cartpage">
-			    	<h2>Your Ordered Details</h2>
+			    	<h2>Your Bill</h2>
 					
 						<table class="tblone">
 							<tr>
-                                <th width="5%">ID</th>
-								<th width="20%">Product Name</th>
-								<th width="10%">Image</th>
-								<th width="15%">Price</th>
-								<th width="15%">Quantity</th>
-                                <th width="15%">Date</th>	
-                                <!-- <th width="10%">Status</th>								
-								<th width="10%">Action</th> -->
+                                <th width="3%">ID</th>
+								<th width="10%">Bill Code</th>
+								<th width="13%">Name</th>
+								<th width="19%">Delivery Address</th>
+								<!-- <th width="15%">email</th> -->
+                                <th width="15%">Date</th>
+                                <th width="15%">Detail</th>
+                                <th width="10%">Status</th>								
+								<th width="10%">Action</th>
 							</tr>
 							<?php
                             $customerid= Session::get('customer_id');
-							$get_ordered_detail = $ct->get_ordered_detail($customerid,$bill_id);
-							if($get_ordered_detail){
+							$get_bill = $ct->get_bill($customerid);
+							if($get_bill){
 								$i = 0;
 								$qty = 0;
-								while($result = $get_ordered_detail->fetch_assoc()){
+								while($result = $get_bill->fetch_assoc()){
                                     $i++;
 							?>
 
 							
 							<tr>
                                 <td><?php echo $i; ?></td>
-								<td><?php echo $result['productName'] ?></td>
-								<td><img src="admin/uploads/<?php echo $result['image'] ?>" alt=""/></td>
-								<td><?php echo $fm->format_currency($result['price']).' VND' ?></td>
-								<td><?php echo $result['quantity'] ?></td>
-                                <td><?php echo $fm->formatDate($result['dateOrder']); ?></td>
-                                <!-- <td>
+								<td style="font-weight:bold; color:green;"><?php echo $result['code_bill'] ?></td>
+								<td><?php echo $result['customerName'] ?></td>
+                                <td><?php echo $result['address_delivery'] ?></td>
+                                
+                                <td><?php echo $fm->formatDate($result['date_order']); ?></td>
+                                <td><a style="color:#00136c;" href= "orderdetails.html?bill_Id=<?php echo $result['code_bill']?>">View details</a></td>
+                                <td>
                                 <?php
                                 if($result['status']== 0){
                                     echo 'Processing';
@@ -94,7 +88,7 @@ if(isset($_GET['receiveid'])){
                                 <?php
                                 }elseif($result['status']== 1){
                                 ?>
-                                 <td><a href="orderdetails.html?receiveid=<?php echo $result['id'] ?>&price=<?php echo $result['price']?>&time=<?php echo $result['dateOrder']?>">Confirm</a></td>
+                                 <td><a href="bill?receiveid=<?php echo $result['bill_id'] ?>&time=<?php echo $result['date_order']?>">Confirm</a></td>
                                <?php
                                 }elseif($result['status']== 2){
                                ?>
@@ -106,7 +100,7 @@ if(isset($_GET['receiveid'])){
                                         <?php
                                         
                                     }
-                                ?> -->
+                                ?>
 
 							</tr>
 

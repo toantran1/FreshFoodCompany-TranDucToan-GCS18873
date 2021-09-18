@@ -5,7 +5,7 @@ include 'inc/header.php';
 <?php
 if(isset($_GET['orderid']) && $_GET['orderid'] == 'order'){                        // if Id does not exist, it will return catlist page
     $customerid= Session::get('customer_id');
-	$insertOrder = $ct->insertOrder($customerid);
+	// $insertOrder = $ct->insertOrder($customerid);
 	$delCart = $ct->del_all_data_cart();
 	header('Location:success.html');
 }
@@ -32,7 +32,10 @@ p.Bill{
     	<div class="section group">
        <?php
        $customerid= Session::get('customer_id');
-       $get_total_price = $ct->getTotalPrice($customerid);
+       $code_bill = $_SESSION['code_bill'];
+    //    var_dump($code_bill);
+    //    exit;
+       $get_total_price = $ct->getTotalPrice($customerid,$code_bill);
        if($get_total_price){
            $total= 0; 
            while($result= $get_total_price->fetch_assoc()){
@@ -54,10 +57,11 @@ p.Bill{
        $totalPrice = $total + $vat;
        echo $fm->format_currency($totalPrice).' VND';  ?>  </p>
        <?php echo '<center><img src="images/success_icon.png" alt="" width ="100px"></center>'; ?>
-       <p class="Bill">Please click Bill to see your order again <a style="color:green;" href="orderdetails.html">Your Bill</a></p>
+       <p class="Bill">Please click Bill to see your order again <a style="color:green;" href="bill">Your Bill</a></p>
        <?php
           }else{
               echo'<center><img src="images/empty_bag_order.png" alt="" width ="400px"></center>';
+              
         ?>
         	<div class="shopping">
                         <style>

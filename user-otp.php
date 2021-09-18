@@ -83,7 +83,7 @@ if($email == false){
 		          <?php 
                     if(isset($_SESSION['info'])){
                         ?>
-                        <span style="color:Red;font-weight:600;">
+                        <span style="color:green;font-weight:600;">
                             <?php echo $_SESSION['info']; ?>
 					</span>
                         <?php

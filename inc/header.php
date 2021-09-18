@@ -163,9 +163,9 @@ $product = new product();
 
 		<?php
 		 $customerid= Session::get('customer_id');
-	 	$check_order = $ct->check_order($customerid);
-		 if($check_order){
-			 echo ' <li><a href="orderdetails.html">Ordered</a></li>';
+	 	$check_bill = $ct->check_bill($customerid);
+		 if($check_bill){
+			 echo ' <li><a href="bill">Bill</a></li>';
 		 }else{
 			 echo '';
 		 }

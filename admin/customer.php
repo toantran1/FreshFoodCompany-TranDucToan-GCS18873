@@ -7,6 +7,14 @@ include_once ($filepath.'/../classes/customer.php');
 include_once ($filepath.'/../helpers/format.php');
 ?>
 <?php
+if(!isset($_GET['bill_Id']) || $_GET['bill_Id'] == NULL){                       
+    echo "<script> window.location = '../404.html'</script>";
+}else{
+    $bill_id = $_GET['bill_Id'];
+	}
+
+?>
+<?php
 $cat = new category();
 
 if(!isset($_GET['customerid']) || $_GET['customerid'] == NULL){                        // if Id does not exist, it will return catlist page
@@ -96,9 +104,10 @@ $cs = new customer();
                     ?>
                     <form action="" method ="POST">
                         <h3>Delivery Address:</h3>
+                        
                         <?php
-                         
-                         $get_address_order_cus = $cs->show_delivery_address_order($id);
+                        
+                         $get_address_order_cus = $cs->show_delivery_address_order($id,$bill_id);
                          if($get_address_order_cus){
                              while($result_deli_order_cus = $get_address_order_cus->fetch_assoc()){
              

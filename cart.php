@@ -94,7 +94,7 @@ if(!isset($_GET['id'])){
 						<?php
 								$check_cart = $ct->check_cart();
 								if($check_cart){
-								?>
+						?>
 						<table style="float:right;text-align:left;" width="40%">
 							<tr>
 								<th>Sub Total : </th>
@@ -122,15 +122,8 @@ if(!isset($_GET['id'])){
 								?></td>
 							</tr>
 					   </table>
-					   <?php
-								}else{
-									
-									echo '<center><img src="images/empty_cart1.png" alt="" width ="400px"></center>';
-									echo '<center>Your Cart is empty. Please Shopping now, thanks you!!!</center>';
-								} 
-					   ?>
 					</div>
-					<div class="shopping">
+					   <div class="shopping">
 						<div class="shopleft">
 							<a href="index.html"> <img src="images/shop.png" alt="" /></a>
 						</div>
@@ -138,6 +131,31 @@ if(!isset($_GET['id'])){
 							<a href="payment.html"> <img src="images/checkout.png" alt="" /></a>
 						</div>
 					</div>
+					   <?php
+								}else{
+									
+									echo '<center><img src="images/empty_cart1.png" alt="" width ="400px"></center>';
+									echo '<center>Your Cart is empty. Please Shopping now, thanks you!!!</center>';
+								?>
+					</div>
+								<div class="shopping">
+									<div class="">
+										<center><a href="index.html"> <img src="images/shop.png" alt="" /></a><center>
+									</div>
+								</div>
+								
+								<?php
+								} 
+					   ?>
+					
+					<!-- <div class="shopping">
+						<div class="shopleft">
+							<a href="index.html"> <img src="images/shop.png" alt="" /></a>
+						</div>
+						<div class="shopright">
+							<a href="payment.html"> <img src="images/checkout.png" alt="" /></a>
+						</div>
+					</div> -->
     	</div>  	
        <div class="clear"></div>
     </div>

@@ -108,7 +108,7 @@ if( isset($_GET['deladdress'])){
 
 
             <tr>
-                <td colspan="3"><a href="editprofile.html">Update Profile</a> </td>
+                <td colspan="3"><a href="editprofile">Update Profile</a> </td>
                 
             </tr>
 
@@ -116,14 +116,14 @@ if( isset($_GET['deladdress'])){
                 }
             }
             ?>
-           
+        
 
          </table>		
 
          </div>
  	</div>
         
-     <div class="content">
+     <!-- <div class="content">
     	<div class="section group">
         <div class="content_top">
     		<div class="heading">
@@ -180,7 +180,7 @@ if( isset($_GET['deladdress'])){
     </form>
 </table>		
  		</div>
- 	</div>
+ 	</div> -->
         </div>
  <?php
  include 'inc/footer.php';

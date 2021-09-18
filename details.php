@@ -218,6 +218,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])){
 		}
 		.panel-default {
 			border-color: #ddd;
+			display:none;
 		}
 		.panel-default>.panel-heading {
 			color: #333;
@@ -240,28 +241,54 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])){
 			border-bottom-right-radius: 3px;
 			border-bottom-left-radius: 3px;
 		}
+		.btn{
+			padding: .2rem 1rem;
+			background: green;
+			border-radius:50px;
+			color: #fff;
+			margin:20px auto;
+			display:block;
+			font-size: 1rem;
+			cursor: pointer;
+			outline: none;
+		}
+		.btn:hover{
+			opacity: .8;
+		}
+	
+		
 		</style>
 				<h2>All Comments</h2>
 				
 				<?php	
 						$cmlist= $cs->show_comment($id);
+						$i=0;
 						if($cmlist){
 						 	while($result_comment= $cmlist->fetch_assoc()){
+								 $i++;
                 ?> 
 				<div class="panel panel-default">
 			
 					<div class="panel-heading">
 						<p>By
 						<b style="color:green; font-weight:bold;"><?php echo $result_comment['user_comment'] ?></b>
-						on 
-						<i style="font-style: italic;font-size:15px;"><?php echo $result_comment['date_cmt'] ?></i>		
+								
 						</p>
 					</div>
 					<div class="panel-body">
 						<p><?php echo $result_comment['comment_detail'] ?></p>		
 					</div>
-					<!-- <div class="panel-footer"></div> -->
+					<div class="panel-footer">
+						
+						<i style="font-style: italic;font-size:15px;margin-left:73%; ">on <?php echo $result_comment['date_cmt'] ?></i>
+					</div>
 				</div>
+				
+				<?php
+					}
+					if($i > 4){
+				?>
+				<button class="btn">Show more comments</button>
 				<?php
 					}
 				}else{
@@ -270,8 +297,18 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])){
 					echo '<center><img src="images/no_comment.png" alt="" width ="450px"></center>';
 				   }
 				?>	
-	
+				
 					</div>
+					<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+					<script>
+						$(".panel-default").slice(0, 4).show()
+						$(".btn").on("click", function(){
+							$(".panel-default:hidden").slice(0, 3).slideDown()
+							if($(".panel-default:hidden").length = 0){
+								$(".btn").fadeOut('slow')
+							}
+						})
+					</script>
 				  </div>
   				</div>
 

@@ -468,7 +468,7 @@ class customer{
     // }
 
     public function show_comment($id){
-        $query = "SELECT * FROM tbl_comment WHERE productId= '$id'  order by comment_id desc LIMIT 8";
+        $query = "SELECT * FROM tbl_comment WHERE productId= '$id'  order by comment_id desc ";
 			$result = $this->db->select($query);
          
                 return $result;
@@ -533,8 +533,8 @@ class customer{
             return $this->db->update($query);
     }
 
-    public function show_delivery_address_order($id){
-        $query = "SELECT * FROM tbl_deliveryaddress WHERE customerId='$id' AND default_status ='1' ORDER BY id desc";
+    public function show_delivery_address_order($id,$bill_id){
+        $query = "SELECT * FROM tbl_bill WHERE customerId='$id' AND code_bill= '$bill_id' ";
         $result = $this->db->select($query);
         return $result;
     }

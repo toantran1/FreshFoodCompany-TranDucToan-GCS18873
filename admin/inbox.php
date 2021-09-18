@@ -10,15 +10,15 @@ $ct = new cart();
 if(isset($_GET['processid'])){                       
     $id = $_GET['processid'];
 	$time = $_GET['time'];
-	$price = $_GET['price'];
-	$processed = $ct->processed($id,$time,$price);
+	
+	$processed = $ct->processed($id,$time);
 }
 
 if(isset($_GET['deleid'])){                      
     $id = $_GET['deleid'];
 	$time = $_GET['time'];
-	$price = $_GET['price'];
-	$del_processed = $ct->delete_completed_orer($id,$time,$price);
+	
+	$del_processed = $ct->delete_completed_orer($id,$time);
 }
 ?>
 
@@ -40,10 +40,10 @@ if(isset($_GET['deleid'])){
 						<tr>
 							<th>No.</th>
 							<th>Order Time</th>
-							<th>Product</th>
-							<th>Quantity</th>
-							<th>Price</th>
-							<!-- <th>Customer Name</th> -->
+							<th>Bill Code</th>
+							<th>Name</th>
+							<th>Delivery address</th>
+							<th>Email</th>
 							<th>Profile</th>
 							<th>Action</th>
 						</tr>
@@ -52,21 +52,21 @@ if(isset($_GET['deleid'])){
 					<?php
 					$fm = new format();
 					$ct = new cart();
-					$getInboxCart = $ct->getInboxCart();
-					if($getInboxCart){
+					$getInboxBill = $ct->getInboxBill();
+					if($getInboxBill){
 						$i =0;
-						while($result= $getInboxCart->fetch_assoc()){
+						while($result= $getInboxBill->fetch_assoc()){
 							$i++;
 					
 					?>
 						<tr class="odd gradeX">
 							<td><?php echo $i; ?></td>
-							<td><?php echo $fm->formatDate($result['dateOrder'])?></td>
-							<td><?php echo $result['productName']?></td>
-							<td><?php echo $result['quantity']?></td>
-							<td><?php echo $fm->format_currency($result['price']).' VND'?></td>
-							<!-- <td><?php echo $result['customerId']?></td> -->
-							<td><a style="color:blue;" href= "customer.php?customerid=<?php echo $result['customerId'] ?>">View User</a></td>
+							<td><?php echo $fm->formatDate($result['date_order'])?></td>
+							<td><?php echo $result['code_bill']?></td>
+							<td><?php echo $result['customerName']?></td>
+							<td><?php echo $result['address_delivery']?></td>
+							<td><?php echo $result['email']?></td>
+							<td><a style="color:blue;" href= "customer.php?customerid=<?php echo $result['customerId']?>&bill_Id=<?php echo $result['code_bill']?>">View User</a></td>
 							
 							<td>
 
@@ -74,7 +74,7 @@ if(isset($_GET['deleid'])){
 							if($result['status']== 0){
 							?>
 
-							<a href="?processid=<?php echo $result['id'] ?>&price=<?php echo $result['price']?>&time=<?php echo $result['dateOrder']?>">Processing</a>
+							<a href="?processid=<?php echo $result['bill_id'] ?>&time=<?php echo $result['date_order']?>">Processing</a>
 						
 							<?php
 							}elseif($result['status']== 1){
@@ -84,7 +84,7 @@ if(isset($_GET['deleid'])){
 							}elseif($result['status']== 2){						
 							?>
  
-							<a style="color: red" href="?deleid=<?php echo $result['id'] ?>&price=<?php echo $result['price']?>&time=<?php echo $result['dateOrder']?>">Delete</a>
+							<a style="color: red" href="?deleid=<?php echo $result['bill_id'] ?>&time=<?php echo $result['date_order']?>">Delete</a>
 							<?php
 							}
 							?>

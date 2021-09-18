@@ -2,18 +2,26 @@
 include 'inc/header.php';
 //include 'inc/slider.php';
 ?>
-<?php
-if(isset($_GET['orderid']) && $_GET['orderid'] == 'order' ){                        
-    $customerid= Session::get('customer_id');
-	$insertOrder = $ct->insertOrder($customerid);
 
-	$insert_delivery = $ct->insert_delivery($customerid);                 
+ <?php
+	 	 $login_check = Session:: get('customer_login');
+		  if($login_check == false){
+			header('Location:login.html');
+		}
+    ?>
+<?php
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])){                        
+    $customerid= Session::get('customer_id');
+    $insertBill= $ct->insert_bill($customerid);
+    
+	// $insertOrder = $ct->insertOrder($customerid);
 
 	$delCart = $ct->del_all_data_cart();
+
 	header('Location:success.html');
 }
  ?>
- 
+
 <style>
 
 .box_left {
@@ -31,7 +39,7 @@ if(isset($_GET['orderid']) && $_GET['orderid'] == 'order' ){
 
 }
 
-a.a_order{
+input.a_order{
    /* padding:10px 70px;
     border:none;
     background: green;
@@ -44,6 +52,28 @@ a.a_order{
 	color: white;
 	font-size: 25px;
 	border-radius: 24px;
+    margin-bottom: 15px;
+    cursor:pointer;
+    
+}
+input.a_order:hover{
+    opacity: .8;
+}
+.buyfields{
+    padding: 8px;
+    display: block;
+    width: 98%;
+    background: #fcfcfc;
+    border: none;
+    outline: none;
+    color: #464646;
+    font-size: 0.9rem;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: inset 0px 0px 3px #999;
+    -webkit-box-shadow: inset 0px 0px 3px #999;
+    -moz-box-shadow: inset 0px 0px 3px #999;
+    -o-box-shadow: inset 0px 0px 3px #999;
+    -webkit-appearance: none;
 
 }
 </style>
@@ -54,9 +84,14 @@ a.a_order{
         <div class="heading">
     		<h3>Offline Payment</h3>
             </div>
-           
+        
     		<div class="clear"></div>
             <div class="box_left">
+                <?php
+            if(isset($insertOrder)){
+                    echo $insertOrder;
+                }
+                ?>
             <div class="cartpage">
 			    	
 					<?php
@@ -150,6 +185,8 @@ a.a_order{
 							</tr>
                           
 					   </table>
+                                
+                      
 					   <?php
 								}else{
 									echo 'Your Cart is empty. Please Shopping now, thanks you!!!';
@@ -159,6 +196,11 @@ a.a_order{
             </div>
 		
             <div class="box_right">
+                <?php
+                if(isset($insertBill)){
+                    echo $insertBill;
+                }
+                ?>
             <table class="tblone">
          <?php
          $id = Session::get('customer_id');
@@ -169,67 +211,59 @@ a.a_order{
             
          ?>
             <tr>
-                <td>Name </td>
+                <td style="font-weight:bold;">Name </td>
                 <td>:</td>
-                <td><?php echo $result['name'] ?></td>
-            </tr>
-            <!-- <tr>
-                <td>City </td>
-                <td>:</td>
-                <td><?php echo $result['city'] ?></td>
-            </tr> -->
+                <td><input style='color: green;' type= "text" readonly="readonly" value="<?php echo $result['name'] ?>" class="buyfields" name ="name"/></td>
+            </tr>      
             <tr>
-                <td>Phone number </td>
+                <td  style="font-weight:bold;">Phone number </td>
                 <td>:</td>
-                <td><?php echo $result['phone'] ?></td>
+                <td><input style='color: green;' type= "text" readonly="readonly" value="<?php echo $result['phone'] ?>" class="buyfields" name ="phone"/></td>
             </tr>
-            <!-- <tr>
-                <td>Country </td>
-                <td>:</td>
-                <td><?php echo $result['country'] ?></td>
-            </tr> -->
+     
             <tr>
-                <td>Zip-code </td>
+                <td style="font-weight:bold;">Zip-code </td>
                 <td>:</td>
-                <td><?php echo $result['zipcode'] ?></td>
+                <td><input style='color: green;' type= "text" readonly="readonly" value="<?php echo $result['zipcode'] ?>" class="buyfields" name ="zipcode"/></td>
             </tr>
             <tr>
-                <td>Email </td>
+                <td style="font-weight:bold;">Email </td>
                 <td>:</td>
-                <td><?php echo $result['email'] ?></td>
-            </tr>
-            <tr>
-                <td>Address </td>
-                <td>:</td>
-                <td><?php echo $result['address'] ?></td>
+                <td><input style='color: green;' type= "text" readonly="readonly" value="<?php echo $result['email'] ?>" class="buyfields" name ="email"/></td>
             </tr>
 
-			<!-- <tr>
-                <td>Address Delivery </td>
+            <tr>
+                <td style="font-weight:bold;">Address </td>
                 <td>:</td>
-                <td><?php echo $result['id_address'] ?></td>
-            </tr> -->
-     
+                <td><input style='color: green;' type= "text" readonly="readonly" value="<?php echo $result['address'] ?>" class="buyfields" name ="address"/></td>
             </tr>
-			<!-- <tr>
-                <td><h4 style="color:green; font-weight:600">Note Delivery Address </h4></td>
-                <td>:</td>
-                <td><input type="text" placeholder="Delivery Address..." name="delivery_address"></td>
-            </tr> -->
-       
-            <?php
+
+         <?php
                 }
             }
             ?>
-
+            
+            <tr>
+                <td><h4 style="color:green; font-weight:bold">Note Delivery Address </h4></td>
+                <td>:</td>
+                <td><input type="text" placeholder="Delivery Address..." class="buyfields" name="delivery_address" required></td>
+            </tr>
+          
+            
+            <tr>
+            <td colspan="3"><a href="editprofile.html">Update Profile</a> </td>
+            </tr>
          </table>	
-		 <table class="tblone">
+         
+
+
+		 <!-- <table class="tblone">
     <form action="" method="GET">
          <?php
-         $id = Session::get('customer_id');
-            $get_address_order = $cs->show_delivery_address_order($id);
-            if($get_address_order){
-                while($result_deli_order = $get_address_order->fetch_assoc()){
+        //  $id = Session::get('customer_id');
+        //     $get_address_order = $cs->show_delivery_address_order($id);
+        //     if($get_address_order){
+        //         while($result_deli_order = $get_address_order->fetch_assoc()){
 
             
          ?>
@@ -243,8 +277,8 @@ a.a_order{
            
        
             <?php
-                }
-            }
+            //     }
+            // }
             ?>
 			   <tr>
                 <td colspan="3"><a href="editprofile.html">Update Profile</a> </td>
@@ -253,14 +287,15 @@ a.a_order{
                 
             </tr>
     </form>
-</table>			
+</table>			 -->
             </div>
  	
  		</div>
 
 		
  	</div>
-    <center><a href="offlinepayment?orderid=order" class="a_order">Order</a></center></br>
+    <!-- <center><a href="offlinepayment?orderid=order" class="a_order">Order</a></center></br> -->
+    <center><input type="submit" name ="submit_order" class="a_order" value="Order"></center>
 </div>
         </form>
  <?php
