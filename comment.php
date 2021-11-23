@@ -1,41 +1,23 @@
-<?php
-include 'inc/header.php';
-//include 'inc/slider.php';
-?>
 
-<style type="text/css">
-h2.order_success{
-    text-align: center;
-    color: red;
-} 
-p.note_order{
-    text-align: center;
-    padding: 10px;
-    font-size: 20px;
-}
-p.Bill{
-    text-align: center;
-    padding: 10px;
-    font-size: 20px;
-}
-</style>
-<form action="" method="POST">
- <div class="main">
-    <div class="content">
-    	<div class="section group">
-       
-    
-       <?php echo '<center><img src="images/thank_you.png" alt="" width ="600px"></center>'; ?>
-       <center><p><button type="submit" class="btn btn-success" ><a href="index.html">Back to home</a></button><center>
-       
-   	
- 		</div>
- 	</div>
-    
-</div>
-        </form>
- <?php
- include 'inc/footer.php';
- ?>
-
-	
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Paypal Integration Test</title>
+</head>
+<body>
+    <form class="paypal" action="payments.php" method="post" id="paypal_form">
+        <input type="hidden" name="cmd" value="_xclick" />
+        <input type="hidden" name="no_note" value="1" />
+        <input type="hidden" name="lc" value="UK" />
+        <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynow_LG.gif:NonHostedGuest" />
+        <input type="hidden" name="first_name" value="Customer's First Name" />
+        <input type="hidden" name="last_name" value="Customer's Last Name" />
+        <input type="hidden" name="payer_email" value="customer@example.com" />
+        <input type="hidden" name="item_number" value="123456" />
+        <input type="submit" name="submit" value="Submit Payment"/>
+    </form>
+</body>
+</html>

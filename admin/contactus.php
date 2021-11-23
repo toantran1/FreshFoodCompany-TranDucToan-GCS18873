@@ -25,7 +25,7 @@ if(isset($_GET['delcontactid'])){
 
         <div class="grid_10">
             <div class="box round first grid">
-                <h2>Inbox</h2>
+                <h2>Contact</h2>
                 <div class="block">    
 				<?php
 				if(isset($processed)){

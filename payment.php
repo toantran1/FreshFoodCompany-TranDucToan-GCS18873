@@ -48,7 +48,7 @@ include 'inc/header.php';
             <!-- <h3 class ="payment"> Please, choose your payment method</h3> -->
             <center><img src="images/payment_icon.png"><center>
             <a class ="payment_href" href="offlinepayment"> Offline Payment</a>
-            <a class ="payment_href" href="404.html"> Online Payment</a></br></br></br>
+            <a class ="payment_href" href="onlinepayment"> Online Payment</a></br></br></br>
             <a style="background:#ab2222; border-radius: 10px" href ="cart.html"> << Back the Cart </a>
             </div>
             

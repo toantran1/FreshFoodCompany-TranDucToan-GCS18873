@@ -91,7 +91,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])){
 							<option value="null">----Select a Country----</option>      
 
 							
-							<option value="hcm">Tp.Ho Chi Minh</option>
+							<option value="hcm">Ho Chi Minh City</option>
 							<option value="vt">Vung Tau</option>
 							<option value="la">Long An</option>
 							<option value="DKLK">Dak Lak</option>

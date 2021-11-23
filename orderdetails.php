@@ -48,7 +48,7 @@ if(isset($_GET['receiveid'])){
 								<th width="10%">Image</th>
 								<th width="15%">Price</th>
 								<th width="15%">Quantity</th>
-                                <th width="15%">Date</th>	
+                                <th width="25%">Date</th>	
                                 <!-- <th width="10%">Status</th>								
 								<th width="10%">Action</th> -->
 							</tr>

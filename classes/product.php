@@ -540,6 +540,11 @@ class product{
 
     }
  
+    public function getInboxBill_detail($id,$bill_id){
+        $query = "SELECT * FROM tbl_order WHERE customerId = '$id' AND bill_id= '$bill_id' ";
+        $get_bill_detail = $this->db-> select($query);
+        return $get_bill_detail;
+    }
     
  
   

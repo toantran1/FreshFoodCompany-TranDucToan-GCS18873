@@ -111,12 +111,7 @@ class cart{
         return $result;
     }
 
-    public function del_all_data_compare($customerid){
-        $sId = session_id();
-        $query = "DELETE FROM tbl_compare WHERE customerId ='$customerid'";
-        $result = $this->db->delete($query);
-        return $result;
-    }
+
 
  //BILL
  public function insert_bill($customerid){
@@ -134,9 +129,9 @@ class cart{
         $_SESSION['code_bill'] = substr(str_shuffle($permitted_chars), 0, 15);
         $code_bill = $_SESSION['code_bill'];
         $customerId= $customerid;
-
-        $query_order_cus = "INSERT INTO tbl_bill(code_bill,customerId,customerName,email,address_delivery) 
-                            VALUES('$code_bill','$customerId','$name','$email','$delivery_address')";
+        $status = 'Offline';
+        $query_order_cus = "INSERT INTO tbl_bill(code_bill,customerId,customerName,email,address_delivery,payments) 
+                            VALUES('$code_bill','$customerId','$name','$email','$delivery_address','$status')";
 
         $insert_order_cus = $this->db->insert($query_order_cus);
 
@@ -168,6 +163,8 @@ class cart{
     
 }
 
+
+
     // $query_cus = "SELECT * FROM tbl_customer WHERE tbl_customer.id = '$customerid' ";
     // $res_cus = $this->db->select($query_cus);
 
@@ -190,7 +187,49 @@ class cart{
     // exit;
 
 }
+// public function del_all_data_cart_paypal(){
+//     $sId = session_id();
+//     $query = "DELETE FROM tbl_cart WHERE sId ='$sId'";
+//     $result = $this->db->select($query);
+//     return $result;
+// }
+//Payment PayPal bill
+public function insertOrderpaypal($customerid,$orderID,$name,$email, $addressDelivery){
+    $cusID =$customerid;
+    $order_id= $orderID;
+    $cusName = $name;
+    $address_delivery =$addressDelivery;
+    $status = 'Paypal(Paid)';
+    $query = "INSERT INTO tbl_bill(customerId, customerName, email, code_bill, address_delivery,payments)
+                VALUES('$cusID','$cusName','$email','$order_id','$address_delivery', '$status')";
+                $res = $this->db->insert($query);
+    
+            
+        $sId = session_id();
+      
+        $query_add_cart = "SELECT * FROM tbl_cart WHERE sId ='$sId'";        
+        $get_all_product = $this->db->select($query_add_cart);       
+     
+        if($get_all_product){
+            while($result = $get_all_product->fetch_assoc()){
+                
+                $productId = $result['productId'];            
+                $productName = $result['productName'];
+                $quantity = $result['quantity'];
+                $price = $result['price'] * $quantity;
+                $image = $result['image'];
+                $customerId = $customerid;
+                $bill_id = $order_id;
+            
+                $query_order_paypal = "INSERT INTO tbl_order(bill_id,productId,productName,quantity,price,image,customerId) 
+                                VALUES('$bill_id','$productId','$productName','$quantity','$price','$image','$customerId')";
 
+                $insert_order_paypal = $this->db->insert($query_order_paypal);
+                //   $this->del_all_data_cart_paypal(); 
+            }
+           
+        } 
+}
     // public function insertOrder($customerid){
     //     $sId = session_id();  
     //     $query = "SELECT * FROM tbl_cart WHERE sId ='$sId'";        
@@ -278,14 +317,15 @@ class cart{
         if ($result_status == 0) {
             $query = "UPDATE tbl_bill SET status = '1'
                       WHERE bill_id = '$id' AND date_order = '$time'";
-            }
+            $result = $this->db->update($query);
+            return $result;
+            header('Location:admin/inbox.php');
+        }
             // else{
             //     $query = "UPDATE tbl_order SET status = '2'
             //     WHERE id = '$id' AND dateOrder = '$time' AND price = '$price' ";
             // }
-            $result = $this->db->update($query);
-            return $result;
-
+           
         // if($result){
         //     $msg = "<span style='color: green;'> Update order successfully !!!</span>";
         //     return $msg;; 
@@ -320,9 +360,10 @@ class cart{
     if ($result_status_del == 2) {
         $query = "UPDATE tbl_bill SET status = '3'
                   WHERE bill_id = '$id' AND date_order = '$time' ";
+                   $result = $this->db->update($query);
+                   return $result;
     }
-    $result = $this->db->update($query);
-    return $result;
+   
     
 }
     public function received($id,$time){

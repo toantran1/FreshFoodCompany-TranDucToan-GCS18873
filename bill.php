@@ -36,12 +36,13 @@ if(isset($_GET['receiveid'])){
 						<table class="tblone">
 							<tr>
                                 <th width="3%">ID</th>
-								<th width="10%">Bill Code</th>
-								<th width="13%">Name</th>
+								<th width="7%">Bill Code</th>
+								<th width="20%">Name</th>
 								<th width="19%">Delivery Address</th>
 								<!-- <th width="15%">email</th> -->
                                 <th width="15%">Date</th>
                                 <th width="15%">Detail</th>
+                                <th width="5%">Payments</th>
                                 <th width="10%">Status</th>								
 								<th width="10%">Action</th>
 							</tr>
@@ -64,6 +65,7 @@ if(isset($_GET['receiveid'])){
                                 
                                 <td><?php echo $fm->formatDate($result['date_order']); ?></td>
                                 <td><a style="color:#00136c;" href= "orderdetails.html?bill_Id=<?php echo $result['code_bill']?>">View details</a></td>
+                                <td><?php echo $result['payments'] ?></td>
                                 <td>
                                 <?php
                                 if($result['status']== 0){

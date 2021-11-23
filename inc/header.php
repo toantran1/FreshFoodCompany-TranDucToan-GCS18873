@@ -16,6 +16,7 @@ $us = new user();
 $cat = new category();
 $cs = new customer();
 $product = new product();
+$paypal = new paypal();
 ?>
 <?php
   header("Cache-Control: no-cache, must-revalidate");
@@ -51,6 +52,10 @@ $product = new product();
     $('#dc_mega-menu-orange').dcMegaMenu({rowItems:'4',speed:'fast',effect:'fade'});
   });
 </script>
+
+<div class="zalo-chat-widget" data-oaid="4200222155839716907" data-welcome-message="Welcome to Fresh Food Company. How can we support you?" data-autopopup="0" data-width="" data-height=""></div>
+
+<script src="https://sp.zalo.me/plugins/sdk.js"></script>
 </head>
 <body>
   <div class="wrap">
@@ -69,7 +74,7 @@ $product = new product();
 				
 			    <div class="shopping_cart">
 					<div class="cart">
-						<a href="#" title="View my shopping cart" rel="nofollow">
+						<a href="cart.php" title="View my shopping cart" rel="nofollow">
 								<span class="cart_title">Cart</span>
 								<span class="no_product">
 								<?php
@@ -91,7 +96,7 @@ $product = new product();
 				 	if(isset($_GET['customerid'])){
 						 $customerid= $_GET['customerid'];
 						 $delCart = $ct->del_all_data_cart();
-						 $delCompare = $ct->del_all_data_compare($customerid);
+						//  $delCompare = $ct->del_all_data_compare($customerid);
 						 Session::destroy();
 					 } 
 				  ?>

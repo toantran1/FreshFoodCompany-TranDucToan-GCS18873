@@ -160,6 +160,7 @@ if(!isset($_GET['id'])){
        <div class="clear"></div>
     </div>
  </div>
+						
  <?php
  include 'inc/footer.php';
  ?>

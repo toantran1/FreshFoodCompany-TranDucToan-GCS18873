@@ -12,6 +12,7 @@ if(isset($_GET['processid'])){
 	$time = $_GET['time'];
 	
 	$processed = $ct->processed($id,$time);
+	
 }
 
 if(isset($_GET['deleid'])){                      
@@ -38,14 +39,15 @@ if(isset($_GET['deleid'])){
                     <table class="data display datatable" id="example">
 					<thead>
 						<tr>
-							<th>No.</th>
-							<th>Order Time</th>
-							<th>Bill Code</th>
-							<th>Name</th>
-							<th>Delivery address</th>
-							<th>Email</th>
-							<th>Profile</th>
-							<th>Action</th>
+							<th width="5%">No.</th>
+							<th width="10%">Order Time</th>
+							<th width="13%">Bill Code</th>
+							<th width="12%">Name</th>
+							<th width="20%">Delivery address</th>
+							<th width="10%">Bill detail</th>
+							<th width="10%">Profile</th>
+							<th width="10%">Payments</th>
+							<th width="10%">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -65,9 +67,12 @@ if(isset($_GET['deleid'])){
 							<td><?php echo $result['code_bill']?></td>
 							<td><?php echo $result['customerName']?></td>
 							<td><?php echo $result['address_delivery']?></td>
-							<td><?php echo $result['email']?></td>
+							<td>
+								<!-- <?php echo $result['email']?> -->
+							<a style="color:blue;" href= "detailBill.php?cusId=<?php echo $result['customerId']?>&ID_bill=<?php echo $result['code_bill']?>">View detail</a>
+							</td>
 							<td><a style="color:blue;" href= "customer.php?customerid=<?php echo $result['customerId']?>&bill_Id=<?php echo $result['code_bill']?>">View User</a></td>
-							
+							<td><?php echo $result['payments']?></td>
 							<td>
 
 							<?php

@@ -144,7 +144,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_contact']) && i
       			<div class="company_address">
 				     	<h2>Company Information :</h2>
 						    	<p>We are happy to serve and bring fresh food to you. Please contact us: </p>
-						   		<p>Address: 327/40 Han Hai Nguyen, P.2, Q.11, TP.HCM</p>
+						   		<p>Address: 327/40 Han Hai Nguyen, Ward 2, District 11, Ho Chi Minh city</p>
 						   		<p>Country: Viet Nam</p>
 				   		<p>Phone: 083.794.3763</p>
 				   		<p>Hotline: 083.794.3763</p>
