@@ -38,13 +38,13 @@ if(isset($_GET['delcontactid'])){
                     <table class="data display datatable" id="example">
 					<thead>
 						<tr>
-							<th>No.</th>
-							<th>Send Time</th>
-							<!-- <th>Customer Name</th> -->
-							<th>Email</th>
-							<th>Phone</th>
-							<th>Subject</th>
-							<th>Action</th>
+							<th width="5%">No.</th>
+							<th width="20%">Send Time</th>
+							
+							<th width="20%">Email</th>
+							<th width="20%">Phone</th>
+							<th width="25%">Subject</th>
+							<th width="10%">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -64,7 +64,7 @@ if(isset($_GET['delcontactid'])){
 						 
 							<td><?php echo $result['customer_email']?></td>						
 							<td><?php echo $result['phone']?></td>
-                            <td><?php echo $fm->textShorten($result['subject'],20)?></td>
+                            <td><?php echo $fm->textShorten($result['subject'],150)?></td>
 										
 							<td>
 

@@ -112,8 +112,10 @@ $paypal = new paypal();
 			    $now = time(); 
 				
 
-				if ($now >  $_SESSION['expire']) {					
+				if ($now >  $_SESSION['expire']) {
+						
 					session::destroy();
+					
 				}
 			
 				echo '<a href="?customerid='.Session::get("customer_id").'">Logout</a></div>';	

@@ -237,7 +237,7 @@ class product{
         // $result = $this->db->update($query);
        
         if ($result_status == 0) {
-            // Show product
+            // Hide product
             $query = "UPDATE tbl_product SET status = '1'
                       WHERE productId = '$id' ";                     
                         //Delete favorite product
@@ -245,7 +245,7 @@ class product{
                         $this->delete_product_cart_hide($id,NULL);
                       
             } else{
-            //Hide product  
+            //Show product  
             $query = "UPDATE tbl_product SET status = '0'
                       WHERE productId = '$id' ";
                     

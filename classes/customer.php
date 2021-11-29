@@ -66,7 +66,7 @@ class customer{
                     $subject = "Email Verification Code";
                     $message = "Your verification code is $code";
                     $sender = "From: toan.job@gmail.com";
-                    if(mail($email, $subject, $message, $sender)){
+                    if(mail($email, $subject, $message, $sender)){                  //PHP function send mail
                         $info = "We've sent a verification code to your email - $email";
                         $_SESSION['info'] = $info;
                         $_SESSION['email'] = $email;
@@ -124,6 +124,7 @@ class customer{
                     
                     $_SESSION['start']= time();
                     $_SESSION['expire'] = $_SESSION['start'] + (60 * 60);
+                    
                     header('location:index.html');
                 }elseif($value['status']=='notverified'){
                     $info = "It's look like you haven't still verify your email - $email";
